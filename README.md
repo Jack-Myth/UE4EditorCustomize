@@ -7,8 +7,8 @@ Maybe you think It should be more beautiful.
 This plugin Give you a chance to Customize your editor.  
 Why don't you try it?  
 *************************************
-* 1.Download the zip file from Release page.
-* 2.Unzip files to Engine/Plugins or Project/Plugins.
+* 1.Download the zip file from Release page or Get this plugin from [Unreal Marketplace](https://www.unrealengine.com/marketplace/ue4editor-customize).
+* 2.Unzip files to Engine/Plugins or Project/Plugins(skip this step if you download it from Marketplace).
 * 3.Enable UE4EditorCustomize plugin and restart editor.
 * 4.Open ProjectSetting->UE4 EditorCustomize->Import Buildin Config(bottom of the setting panel).
 * 5.You will meet a new editor.
