@@ -235,7 +235,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Import Setting", meta = (DisplayName = "Import From ini"))
 		bool ShouldImportSetting;
 
-	UPROPERTY(EditAnywhere, Category = "Import Setting", meta = (DisplayName = "Import Buildin Config"))
+	UPROPERTY(EditAnywhere, Category = "Import Setting", meta = (DisplayName = "Import Built-in Config"))
 		bool ShouldImportBuildinConfig;
 
 	UEditorCustomizeSetting();
