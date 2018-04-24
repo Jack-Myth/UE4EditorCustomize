@@ -131,7 +131,7 @@ bool FUE4EditorCustomizeModule::_Internal_ImportUTheme_v0(TArray<uint8>& AllFile
 					return false;
 				break;
 			case (uint8)AssetType::UAsset:
-				if (!_Internal_ImportUAsset(UncompressedDataBuffer, ContentsDataIndex))
+				if (!_Internal_ImportUAsset(UncompressedDataBuffer, ContentsDataIndex,ErrorMsg))
 					return false;
 				break;
 		}
@@ -312,7 +312,7 @@ bool FUE4EditorCustomizeModule::_Internal_ExportFontFace(const UObject* FontFace
 	return true;
 }
 
-bool FUE4EditorCustomizeModule::_Internal_ImportUAsset(TArray<uint8>& UThemeData, int& Offset)
+bool FUE4EditorCustomizeModule::_Internal_ImportUAsset(TArray<uint8>& UThemeData, int& Offset, FText* ErrorMsg)
 {
 	FString AssetPackagePath((TCHAR*)(UThemeData.GetData() + Offset));
 	Offset += AssetPackagePath.Len() *2 + 2;
@@ -322,12 +322,18 @@ bool FUE4EditorCustomizeModule::_Internal_ImportUAsset(TArray<uint8>& UThemeData
 	TArray<uint8> AssetData;
 	AssetData.Append(UThemeData.GetData() + Offset, AssetSize);
 	Offset += AssetSize;
-	return FFileHelper::SaveArrayToFile(AssetData, *GetAssetAbsolutePath(AssetPackagePath));
+	bool SaveResult= FFileHelper::SaveArrayToFile(AssetData, *GetAssetAbsolutePath(AssetPackagePath));
+	TArray<FString> PackagePathArray;
+	PackagePathArray.Add(FPaths::GetPath(AssetPackagePath));
+	UAssetManager::Get().GetAssetRegistry().ScanFilesSynchronous(PackagePathArray,true);
+	if (!SaveResult&&ErrorMsg)
+		*ErrorMsg = FText::Format(LOCTEXT("ImportAssetError", "Error while importing \"{AssetPath}\".Asset may already exist. Try Delete it Manually."), FText::FromString(AssetPackagePath));
+	return SaveResult;
 }
 
 bool FUE4EditorCustomizeModule::_Internal_ImportConfigIni(TArray<uint8>& UThemeData, int& Offset)
 {
-	FString ConfigIni = FPaths::ProjectSavedDir() + "/tmpUE4EditorCustomize.ini";
+	FString ConfigIni = FPaths::ProjectSavedDir() + "/tmpUE4EditorCustomize"+FString::FromInt(rand())+".ini";
 	int ConfigSize = 0;
 	memcpy(&ConfigSize, UThemeData.GetData() + Offset,sizeof(int));
 	Offset += sizeof(int);

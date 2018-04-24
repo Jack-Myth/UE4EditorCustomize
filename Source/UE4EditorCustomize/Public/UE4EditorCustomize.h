@@ -39,7 +39,7 @@ class FUE4EditorCustomizeModule : public IModuleInterface
 	bool _Internal_ExportTexture2D(UObject* TextureObj, TArray<uint8>& UThemeData);
 	bool _Internal_ExportFont(UObject* FontObj, TArray<uint8>& UThemeData, TArray<UObject*>& NeededObject);
 	bool _Internal_ExportFontFace(const UObject* FontFaceObj, TArray<uint8>& UThemeData);
-	bool _Internal_ImportUAsset(TArray<uint8>& UThemeData, int& Offset);
+	bool _Internal_ImportUAsset(TArray<uint8>& UThemeData, int& Offset, FText* ErrorMsg=nullptr);
 	bool _Internal_ImportConfigIni(TArray<uint8>& UThemeData, int& Offset);
 	bool _Internal_ImportTexture2D(TArray<uint8>& UThemeData, int& Offset);
 	bool _Internal_ImportFont(TArray<uint8>& UThemeData, int& Offset);
