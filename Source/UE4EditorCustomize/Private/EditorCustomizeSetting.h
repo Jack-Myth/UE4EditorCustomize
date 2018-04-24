@@ -223,21 +223,6 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Text Style", meta = (DisplayName = "ContentBrowser"))
 		FContentBrowserFont ContentBrowserFont;
 
-	UPROPERTY(EditAnywhere, Category = "Reset To Default", meta = (DisplayName = "Editor Style"))
-		bool Reset_EditorStyle;
-
-	UPROPERTY(EditAnywhere, Category = "Reset To Default", meta = (DisplayName = "Core Style"))
-		bool Reset_CoreStyle;
-
-	UPROPERTY(EditAnywhere, Category = "Reset To Default", meta = (DisplayName = "Text Style"))
-		bool Reset_TextStyle;
-
-	UPROPERTY(EditAnywhere, Category = "Import Setting", meta = (DisplayName = "Import From ini"))
-		bool ShouldImportSetting;
-
-	UPROPERTY(EditAnywhere, Category = "Import Setting", meta = (DisplayName = "Import Built-in Config"))
-		bool ShouldImportBuildinConfig;
-
 	UEditorCustomizeSetting();
 
 public:

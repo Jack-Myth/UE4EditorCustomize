@@ -1,6 +1,7 @@
 // Copyright 2018 Jack Myth. All Rights Reserved.
 
 using UnrealBuildTool;
+using System.IO;
 
 public class UE4EditorCustomize : ModuleRules
 {
@@ -22,9 +23,9 @@ public class UE4EditorCustomize : ModuleRules
 				// ... add other private include paths required here ...
 			}
 			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
+
+
+        PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
@@ -42,7 +43,9 @@ public class UE4EditorCustomize : ModuleRules
 				"SlateCore",
                 "EditorStyle",
                 "DesktopPlatform",
-                "Projects"
+                "Projects",
+                "AssetTools",
+                "zlib"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
