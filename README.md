@@ -13,6 +13,8 @@ Why don't you try it?
 * 4.Open ProjectSetting->UE4 EditorCustomize->Import Built-in Config(bottom of the setting panel).
 * 5.You will meet a new editor.
 
+The detailed instructions are under construction.
+
 Setting Panel:  
 ![](https://github.com/Jack-Myth/UE4EditorCustomize/blob/master/Preview/Screenshot0.jpg)  
 
