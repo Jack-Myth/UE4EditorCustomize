@@ -870,9 +870,10 @@ bool FUE4EditorCustomizeModule::PackageTheme(FString FilePath, FUThemeInfo_v0 UT
 	UThemeFile.Append((uint8*)UThemeHead, 7);  //UTheme Head(_UTheme)
 	UThemeFile.Add(0);		//UTheme Version.
 	bool RequestEngineVersion = false;
-	UThemeInfoData.Append((uint8*)UThemeInfo.Name.GetCharArray().GetData(), UThemeInfo.Name.Len() * 2 + 2);
-	UThemeInfoData.Append((uint8*)UThemeInfo.Author.GetCharArray().GetData(), UThemeInfo.Author.Len() * 2 + 2);
-	UThemeInfoData.Append((uint8*)UThemeInfo.Intro.GetCharArray().GetData(), UThemeInfo.Intro.Len() * 2 + 2);
+	uint8 tmpZero[2] = { 0,0 };
+	UThemeInfoData.Append(UThemeInfo.Name.Len()>0?(uint8*)UThemeInfo.Name.GetCharArray().GetData(): tmpZero, UThemeInfo.Name.Len() * 2 + 2);
+	UThemeInfoData.Append(UThemeInfo.Author.Len()>0 ? (uint8*)UThemeInfo.Author.GetCharArray().GetData() : tmpZero, UThemeInfo.Author.Len() * 2 + 2);
+	UThemeInfoData.Append(UThemeInfo.Intro.Len()>0 ? (uint8*)UThemeInfo.Intro.GetCharArray().GetData() : tmpZero, UThemeInfo.Intro.Len() * 2 + 2);
 	if (UThemeInfo.IconImagePath=="")
 	{
 		int tmpZero = 0;
