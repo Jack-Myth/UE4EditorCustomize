@@ -27,6 +27,9 @@
 #include <Factories/FontFactory.h>
 #include "UThemeInfoWindowFactory.h"
 #include <Engine/Texture2D.h>
+#include <AssetToolsModule.h>
+#include <../Launch/Resources/Version.h>
+#include <IAssetTools.h>
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 
@@ -159,7 +162,11 @@ bool FUE4EditorCustomizeModule::_Internal_ExportConfigIni(TArray<uint8>& UThemeD
 {
 	
 	TArray<uint8> FileData;
+#if ENGINE_MINOR_VERSION >= 18
 	FString ConfigIni = FPaths::ProjectSavedDir() + "/tmpUE4EditorCustomize.ini";
+#else
+	FString ConfigIni = FPaths::GameSavedDir() + "/tmpUE4EditorCustomize.ini";
+#endif
 	SettingS->GetSettingsObject()->SaveConfig(CPF_Config, *ConfigIni);
 	if (!FFileHelper::LoadFileToArray(FileData, *ConfigIni))
 		return false;
@@ -197,7 +204,11 @@ bool FUE4EditorCustomizeModule::_Internal_ExportTexture2D(UObject* TextureObj, T
 	TArray<uint8> FileData;
 	UTexture2D* TextureObject=(UTexture2D*)TextureObj;
 	UExporter* NeededExporter = UExporter::FindExporter(TextureObj, TEXT("TGA"));
+#if ENGINE_MINOR_VERSION >=18
 	FString tmpBMPFileName = FPaths::ProjectSavedDir() + "/tmpUE4EditorCustomize.TGA";
+#else
+	FString tmpBMPFileName = FPaths::GameSavedDir() + "/tmpUE4EditorCustomize.TGA";
+#endif
 	auto& AssetR = UAssetManager::Get().GetAssetRegistry();
 	FAssetData AssetD = AssetR.GetAssetByObjectPath(FName(*TextureObj->GetPathName()));
 	FString AssetName = AssetD.AssetName.ToString();
@@ -276,6 +287,7 @@ bool FUE4EditorCustomizeModule::_Internal_ExportFont(UObject* FontObj, TArray<ui
 		}
 	}
 	UThemeData.Add(0);		//End Default Font
+#if ENGINE_MINOR_VERSION >=19
 	//Fallback Font
 	for (int i = 0; ((UFont*)FontObj)->GetCompositeFont()&&i <((UFont*)FontObj)->GetCompositeFont()->FallbackTypeface.Typeface.Fonts.Num(); i++)
 	{
@@ -290,6 +302,7 @@ bool FUE4EditorCustomizeModule::_Internal_ExportFont(UObject* FontObj, TArray<ui
 			NeededObject.Remove((UObject*)FontFaceAsset);
 		}
 	}
+#endif
 	UThemeData.Add(0);
 	FString FontPath;
 	FontPath = FontObj->GetPathName();
@@ -333,7 +346,11 @@ bool FUE4EditorCustomizeModule::_Internal_ImportUAsset(TArray<uint8>& UThemeData
 
 bool FUE4EditorCustomizeModule::_Internal_ImportConfigIni(TArray<uint8>& UThemeData, int& Offset)
 {
+#if ENGINE_MINOR_VERSION >=18
 	FString ConfigIni = FPaths::ProjectSavedDir() + "/tmpUE4EditorCustomize"+FString::FromInt(rand())+".ini";
+#else
+	FString ConfigIni = FPaths::GameSavedDir() + "/tmpUE4EditorCustomize" + FString::FromInt(rand()) + ".ini";
+#endif
 	int ConfigSize = 0;
 	memcpy(&ConfigSize, UThemeData.GetData() + Offset,sizeof(int));
 	Offset += sizeof(int);
@@ -374,7 +391,11 @@ bool FUE4EditorCustomizeModule::_Internal_ImportTexture2D(TArray<uint8>& UThemeD
 	Offset += TextureName.Len() *2 + 2;
 	FString TexturePath((TCHAR*)(UThemeData.GetData() + Offset));
 	Offset += TexturePath.Len() *2 + 2;
+#if ENGINE_MINOR_VERSION >=18
 	FString TextureTGAFileName = FPaths::ProjectSavedDir() + TextureName+".TGA";
+#else
+	FString TextureTGAFileName = FPaths::GameSavedDir() + TextureName + ".TGA";
+#endif
 	int TextureSize = 0;
 	memcpy(&TextureSize, UThemeData.GetData() + Offset, sizeof(int));
 	Offset += sizeof(int);
@@ -480,19 +501,23 @@ bool FUE4EditorCustomizeModule::_Internal_ImportFont(TArray<uint8>& UThemeData, 
 		FontPair.Add(FontFacePath, FontFaceInstance);
 	}
 	Offset++;
+#if ENGINE_MINOR_VERSION >=19
 	for (auto it = FontPair.CreateConstIterator(); it; ++it)
 	{
 		FTypefaceEntry tmpTypeFaceEntry(*(it->Key));
 		tmpTypeFaceEntry.Font = FFontData(it->Value);
 		tmpFont->CompositeFont.FallbackTypeface.Typeface.Fonts.Add(tmpTypeFaceEntry);
 	}
+#endif
 	FString AssetPathName;
 	AssetPathName = FString((TCHAR*)(UThemeData.GetData() + Offset));
 	Offset += AssetPathName.Len() *2 + 2;
 	FString AssetPackageName = FPackageName::ObjectPathToPackageName(AssetPathName);
 	FText errorMsg;
+#if ENGINE_MINOR_VERSION >=18
 	if (!FFileHelper::IsFilenameValidForSaving(AssetPackageName, errorMsg))
 		return false;
+#endif
 	FString AssetName = FPackageName::GetLongPackageAssetName(AssetPackageName);
 	UPackage* AssetPackage = CreatePackage(nullptr, *AssetPackageName);
 	UFont* NewFontAsset = Cast<UFont>(StaticDuplicateObject(tmpFont, AssetPackage,*AssetName));
@@ -519,8 +544,10 @@ UFontFace* FUE4EditorCustomizeModule::_Internal_ImportFontFace(TArray<uint8>& UT
 	tmpFontFace->FontFaceData->SetData(MoveTemp(FontData));
 	FString AssetPackageName = FPackageName::ObjectPathToPackageName(AssetPathName);
 	FText errorMsg;
+#if ENGINE_MINOR_VERSION >=18
 	if (!FFileHelper::IsFilenameValidForSaving(AssetPackageName, errorMsg))
 		return false;
+#endif
 	FString AssetName = FPackageName::GetLongPackageAssetName(AssetPackageName);
 	UPackage* AssetPackage = CreatePackage(nullptr, *AssetPackageName);
 	UFontFace* NewFontFaceAsset = Cast<UFontFace>(StaticDuplicateObject(tmpFontFace, AssetPackage, *AssetName));
