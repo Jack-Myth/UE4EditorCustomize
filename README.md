@@ -20,3 +20,6 @@ Setting Panel:
 
 UMG Deisgner:  
 ![](https://github.com/Jack-Myth/UE4EditorCustomize/blob/master/Preview/UMGEditor.jpg)
+
+Importing UTheme:  
+![](https://github.com/Jack-Myth/UE4EditorCustomize/blob/master/Preview/ImportUTheme.jpg)
