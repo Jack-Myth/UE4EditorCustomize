@@ -13,7 +13,7 @@ Why don't you try it?
 * 4.Open ProjectSetting->UE4 EditorCustomize->Import Built-in Theme(Top of the setting panel).
 * 5.You will meet a new editor.
 
-The detailed instructions are under construction.
+[Click This Link for detailed Documentation.](https://jack-myth.github.io/UE4EditorCustomize/Documentation.html)
 
 Setting Panel:  
 ![](https://github.com/Jack-Myth/UE4EditorCustomize/blob/master/Preview/Screenshot0.jpg)  
