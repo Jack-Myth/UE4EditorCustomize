@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>UE4EditorCustomize Documentation</title>
+<link href="css/raleway.css" rel="stylesheet"
+		type="text/css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/prettify.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h2 class="docs-header">UE4EditorCustomize</h2>
+    <h2 class="docs-header">Documentation</h2>
+  </div>
+</header>
+<section>
+  <div class="container">
+    <ul class="docs-nav" id="menu-left">
+      <li><strong>Getting Started</strong></li>
+      <li><a href="#welcome" class=" ">Welcome</a></li>
+      <li><a href="#features" class=" ">Features</a></li>
+      <li><a href="#gettingstarted" class=" ">Getting Started</a></li>
+      <li class="separator"></li>
+      <li><strong>Documentation</strong></li>
+      <li><a href="#EditorStyle" class=" ">Editor Style</a></li>
+      <li><a href="#CoreStyle" class=" ">Core Style</a></li>
+      <li><a href="#TextStyle" class=" ">Text Style</a></li>
+      <li><a href="#ImportAndPackage" class=" ">Import And Package</a></li>
+      <li><a href="#QA" class=" ">Q&amp;A</a></li>
+    </ul>
+    <div class="docs-content">
+      <h2> Getting Started</h2>
+      <h3 id="welcome"> Welcome</h3>
+      <p> Maybe you think UE4Editor seems too old fashion. <br>
+        Maybe you think It should be more beautiful.<br>
+        This plugin Give you a chance to Customize your editor. <br>
+        Why don't you try it?</p>
+      <h3 id="features"> Features:</h3>
+      <ul>
+        <li> Customize the Style of UE4Editor.</li>
+        <li> Include more than 50 items to Customize. </li>
+        <li> Can also Customize Editor Fonts</li>
+        <li> Use &quot;UTheme&quot; File to cross Engine Version</li>
+        <li> Will not Modify any Editor File.</li>
+        <li> All Changes will restore when you disable the plugin.</li>
+      </ul>
+      <h3 id="gettingstarted"> Getting Started</h3>
+      <ul>
+        <li>1.Download the zip file from <a href="https://github.com/Jack-Myth/UE4EditorCustomize/releases">Github Release page</a> or Get this plugin from <a href="https://www.unrealengine.com/marketplace/ue4editor-customize" rel="nofollow">Unreal Marketplace</a>.</li>
+        <li>2.Unzip files to Engine/Plugins or Project/Plugins(skip this step if you download it from Marketplace).</li>
+        <li>3.Enable UE4EditorCustomize plugin and restart editor.</li>
+        <li>4.Open ProjectSetting-&gt;UE4 EditorCustomize-&gt;Import Built-in Theme(Top of the setting panel).<br>
+          <a href="pics/Built-inThemeButton.jpg" target="_blank"><img src="pics/Built-inThemeButton.jpg"></a></li>
+        <li>5.You will meet a new editor. </li>
+      </ul>
+      <hr>
+      <h2 id="EditorStyle">Editor Style</h2>
+      <p>This documentation explain what is controlled by the items in &quot;Editor Style&quot;. Here are the contents:</p>
+      <ul>
+        <li><a href="#Editor.UseGrid" class=" ">Editor.UseGrid</a></li>
+        <li><a href="#Graph.Panel.SolidBackground" class=" ">Graph.Panel.SolidBackground</a></li>
+        <li><a href="#Graph.Panel" class=" ">Graph.Panel</a></li>
+        <li><a href="#ToolPanel.GroupBorder" class=" ">ToolPanel.GroupBorder</a></li>
+        <li><a href="#ToolPanel.DarkGroupBorder" class=" ">ToolPanel.DarkGroupBorder</a></li>
+        <li><a href="#SCSEditor.TreePanel" class=" ">SCSEditor.TreePanel</a></li>
+        <li><a href="#SettingsEditor.CheckoutWarningBorder" class=" ">SettingsEditor.CheckoutWarningBorder</a></li>
+        <li><a href="#TableView.DarkRow" class=" ">TableView.DarkRow</a></li>
+        <li><a href="#DetailsView" class=" ">DetailsView</a></li>
+        <li><a href="#PlacementBrowser.Tab" class=" ">PlacementBrowser.Tab</a></li>
+        <li><a href="#EditorModesToolbar.ToggleButton" class=" ">EditorModesToolbar.ToggleButton</a></li>
+        <li><a href="#Toolbar.Background" class=" ">Toolbar.Background</a></li>
+        <li><a href="#UMGEditor.Palette" class=" ">UMGEditor.Palette</a></li>
+      </ul>
+      <p>Here are the details:</p>
+      <h3 id="Editor.UseGrid">Editor.UseGrid</h3>
+      <p>Editor.UseGrid control if there have a Grid in Graph Editor.</p>
+      <blockquote>
+        <li>What is the Graph Editor?</li>
+        Graph editor is a common editor in UE4Editor, like Blueprint editor,Material editor.<br>
+        Here is the Graph editor with out grid:<br>
+        <a href="pics/What'sGraphEditor.jpg" target="_blank"><img src="pics/What'sGraphEditor.jpg"></a></blockquote>
+      <h3 id="Graph.Panel.SolidBackground"> Graph.Panel.SolidBackground </h3>
+      <p>Control the background of Graph Editor</p>
+      <h3 id="Graph.Panel"> Graph.Panel </h3>
+      <p>Control the color of UMG Designer graph's grid.<br>
+        Example:<br>
+        <a href="pics/Graph.Panel.1.jpg" target="_blank"><img src="pics/Graph.Panel.1.jpg"></a><br>
+        <a href="pics/Graph.Panel.2.jpg" target="_blank"><img src="pics/Graph.Panel.2.jpg"></a></p>
+      <li>Grid Line Color<br>
+        <blockquote>Color of The thin lines</blockquote>
+      </li>
+      <li>Grid Rule Color<br>
+        <blockquote>Color of The bolder lines</blockquote>
+      </li>
+      <li>Grid Center Color<br>
+        <blockquote>Color of The lines that cross the center</blockquote>
+      </li>
+      <h3 id="ToolPanel.GroupBorder">ToolPanel.GroupBorder</h3>
+      <p>Control the backgound of Tool Panel</p>
+      <blockquote>
+        <li>What is the Tool Panel?</li>
+        <blockquote>
+          <p>Here are some Widget contain Tool Panel</p>
+          <ul>
+            <li>Mode<br>
+              <img src="pics/ToolPanel.GroupBorder.Mode.1.jpg"></li>
+            <li>World Outliner<br>
+              <img src="pics/ToolPanel.GroupBorder.Outliner.1.jpg"></li>
+            <li>Message Dialog<br>
+              <img src="pics/ToolPanel.GroupBorder.MsgDialog.1.jpg"></li>
+          </ul>
+        </blockquote>
+      </blockquote>
+      <h3 id="ToolPanel.DarkGroupBorder">ToolPanel.DarkGroupBorder</h3>
+      <p>Control the "DarkGroupBorder" of Tool Panel</p>
+      <blockquote>
+        <li>Which Widget use "ToolPanel.DarkGroupBorder"?</li>
+        <blockquote>
+          <p>Here is the Widget contain Tool Panel</p>
+          <ul>
+            <li>Placement Mode<br>
+              <img src="pics/ToolPanel.GroupBorder.Mode.1.jpg"></li>
+          </ul>
+        </blockquote>
+      </blockquote>
+      <h3 id="SCSEditor.TreePanel"> SCSEditor.TreePanel</h3>
+      <p>Control the backgoround of Following Widget:<br>
+        <img src="pics/SCSEditor.TreePanel.jpg"> </p>
+      <h3 id="SettingEditor.CheckoutWarningBorder"> SettingEditor.CheckoutWarningBorder </h3>
+      <p>Control warning message on setting panel<br>
+        Example:</p>
+      <p><img src="pics/SettingEditor.CheckoutWarningBorder.jpg"></p>
+      <h3 id="TableView.DarkRow">TableView.DarkRow</h3>
+      <p>Control the appearance of Table View item<br>
+        Example:<br>
+        <img src="pics/TableView.DarkRow.jpg"></p>
+      <h3 id="DetailsView">DetailsView</h3>
+      <p>Control the appearanceof Details View</p>
+      <blockquote>
+        <li>What is the Details View? </li>
+        <blockquote>
+          <p>Details View is a kind of widget that show the details property.<br>
+            There are many Details View in UE4 Like:<br>
+            <img src="pics/DetailsView.WorldSettings.jpg"><br>
+            <img src="pics/DetailsView.StaicMeshDetails.jpg"> </p>
+        </blockquote>
+      </blockquote>
+      <h3 id="PlacementBrowser.Tab"> PlacementBrowser.Tab </h3>
+      <p>Control the apperance of buttons in Placement Browser:<br>
+        <img src="pics/PlacementBrowser.Tab.jpg"></p>
+      <h3 id="EditorModesToolbar.ToggleButton"> EditorModesToolbar.ToggleButton </h3>
+      <p>Control the background of Editor Modes Button:<br>
+        <img src="pics/EditorModesToolbar.ToggleButton.jpg"></p>
+      <h3 id="Toolbar.Background"> Toolbar.Background </h3>
+      <p>Control background of the following Widget:<br>
+        <img src="pics/Toolbar.Background.jpg"></p>
+      <h3 id="UMGEditor.Palette"> UMGEditor.Palette </h3>
+      <p>Control  background of UMG Widget List:<br>
+        <img src="pics/UMGEditor.Palette.jpg"> </p>
+      <li>UMGEditor.PaletteHeader:</li>
+      <blockquote>
+        <p>The header of UMG Widget List</p>
+      </blockquote>
+      <li>UMGEditor.PaletteItem:</li>
+      <blockquote>
+        <p>The item of UMG Widget List</p>
+      </blockquote>
+      <h2 id="CoreStyle">Core Style</h2>
+      <p>This documentation explain what is controlled by the items in &quot;Editor Style&quot;. Here are the contents:</p>
+      <li><a href="#WindowStyle" class=" ">WindowStyle</a></li>
+      <li><a href="#Docking.MajorTab" class=" ">Docking.MajorTab</a></li>
+      <li><a href="#Docking.Tab" class=" ">Docking.Tab</a></li>
+      <li><a href="#TableView.Header" class=" ">TableView.Header</a></li>
+      <li><a href="#Toolbar.Background" class=" ">Toolbar.Background</a></li>
+      <li><a href="#Menu.Background" class=" ">Menu.Background</a></li>
+      <p>Here are the details:</p>
+      <h3 id="WindowStyle"> WindowStyle </h3>
+      <p>Control the appearance of all slate window.<br>
+        If you want to change the backbround of all window, Or replace the Max,Min,Close button with three cute icon,This collection is what you are looking for.<br>
+        <img src="pics/WindowStyle.jpg"></p>
+      <h3 id="Docking.MajorTab"> Docking.MajorTab </h3>
+      <p>Control the appearance of major tab. The major tab is the follow widget:<br>
+        <img src="pics/Docking.MajorTab.jpg"> </p>
+      <h3 id="Docking.Tab"> Docking.Tab </h3>
+      <p>Control the appearance of tab. The Normal tab is the follow widget:<br>
+        <img src="pics/Docking.Tab.jpg"></p>
+      <h3 id="TableView.Header"> TableView.Header </h3>
+      <p>Control background of the Header of TableView. <br>
+        Example:<br>
+        <img src="pics/TableView.Header.jpg"></p>
+      <h3 id="ToolBar.Background"> ToolBar.Backgournd</h3>
+      <p>Control the background of the Toolbar:<br>
+        <img src="pics/coreStyle.Toolbar.Background.jpg"> </p>
+      <h3 id="ToolBar.Background"> Menu.Backgournd</h3>
+      <p>Control background of all menu.<br>
+        Example:<br>
+        <img src="pics/Menu.Background.jpg"> </p>
+		<h2 id="TextStyle">Text Style</h2>
+		<p>This documentation explain what is controlled by the items in &quot;Text Style&quot;. Here are the contents:</p>
+      <li><a href="#NormalText" class=" ">NormalText</a></li>
+      <li><a href="#ToolBar.Label" class=" ">ToolBar.Label</a></li>
+      <li><a href="#Docking.TabFont" class=" ">Docking.TabFont</a></li>
+      <li><a href="#Menu.Label" class=" ">Menu.Label</a></li>
+      <li><a href="#Menu.Heading" class=" ">Menu.Heading</a></li>
+      <li><a href="#PlacementBrowser.Asset.Name" class=" ">PlacementBrowser.Asset.Name</a></li>
+      <li><a href="#PlacementBrowser.Tab.Text" class=" ">PlacementBrowser.Tab.Text</a></li>
+      <li><a href="#PropertyWindow" class=" ">PropertyWindow</a></li>
+      <li><a href="#DetailsView.CategoryFontStylet" class=" ">DetailsView.CategoryFontStylet</a></li>
+      <li><a href="#Hyperlink" class=" ">Hyperlink</a></li>
+      <li><a href="#InlineEditableTextBlockStyle" class=" ">InlineEditableTextBlockStyle</a></li>
+      <li><a href="#SettingsEditor.CatgoryAndSectionFont" class=" ">SettingsEditor.CatgoryAndSectionFont</a></li>
+      <li><a href="#ContentBrowser" class=" ">ContentBrowser</a></li>
+      <p>Here are the details:</p>
+	  <h3 id="NormalText"> NormalText</h3>
+		<p>Control the appearance of Normal Text<br>
+		    Normal Text is a kind of common Text Style. Most Button Text and some Text in Table View are using Normal Text.<br>
+			Example(Big Normal Text):<br>
+			<img src="pics/NormalText.jpg">
+		</p>
+		<h3 id="ToolBar.Label"> ToolBar.Label</h3>
+		<p>Control the appearance of ToolBar's label.<br>Example(Big Label of toolbar):<br>
+		<img src="pics/Toolbar.Label.jpg"></p>
+		<h3 id="Docking.TableFont"> Docking.TableFont </h3>
+		<p>Control the Text Style of Docking Tab's Label.<br>Example(Big Label):<br>
+			<img src="pics/Docking.TableFont.jpg">
+		</p>
+		<h3 id="Menu.Label"> Menu.Label </h3>
+		<p>Control the appearance of menu item's label.<br>Example(Big Menu Label):<br>
+		<img src="pics/Menu.Label.jpg"></p>
+		<h3 id="Menu.Heading"> Menu.Heading </h3>
+		<p>Control the appearance of menu Header's label.<br>Example(Big Menu Header):<br>
+		  <img src="pics/Menu.Heading.jpg">
+		</p>
+	  <h3 id="PlacementBrowser.Tab.Text"> PlacementBrowser.Tab.Text </h3>
+		<p>Control the appearance of Tab's label in Placement Mode.<br>Example(Big Tab Label):<br>
+		  <img src="pics/PlacementBrowser.Tab.Text.jpg">
+		</p>
+	<h3 id="PropertyWindow"> PropertyWindow </h3>
+		<p>Control the appearance of PropertyWindow's label. Most Property's Label are under control.<br>Example(Big Property Label):<br>
+	    <img src="pics/PropertyWindow.jpg"></p>
+	  <h3 id="DetailsView.CategoryFontStylet"> DetailsView.CategoryFontStylet </h3>
+		<p>Control the appearance of Category's label in Details View. <br>Example(Big Category Label):<br>
+	    <img src="pics/DetailsView.CategoryFontStylet.jpg"></p>
+	  <h3 id="DetailsView.CategoryFontStylet"> Hyperlink </h3>
+		<p>Control the appearance of Hyperlink.<br>Hyperlink is like the following widget:<br>
+	    <img src="pics/Hyperlink.jpg"></p>	
+	  <h3 id="InlineEditableTextBoxStyle"> InlineEditableTextBoxStyle </h3>
+		<p>Control the appearance of InlineEditableTextBox.<br>InlineEditableTextBox is like the following widget:<br>
+	    <img src="pics/InlineEditableTextBoxStyle.jpg"></p>	
+	<h3 id="SettingEditor.CategoryAndSectionFont"> SettingEditor.CategoryAndSectionFont </h3>
+	  <p>Control the appearance of Section or Category Label in Setting Editor.<br>The label is like the widget:<br>
+	    <img src="pics/SettingEditor.CategoryAndSectionFont.jpg"></p>
+	<h3 id="ContentBrowser"> ContentBrowser </h3>
+	  <p>Hold the setting of font in Content browser.</p>
+	  <li>Source Tree Root Item Font</li>
+		<blockquote>
+			<p>Control the label of Root Directory:<br>
+				<img src="pics/SourceTreeRootItem.jpg">
+			</p>
+		</blockquote>
+		<li>Source Tree Item Font</li>
+		<blockquote>
+			<p>Control the label of Normal Directory:<br>
+			<img src="pics/SourceTreeItem.jpg"></p>
+		</blockquote>
+		<li>Asset Tile View Name Very Small</li>
+		<li>Asset Tile View Name Small</li>
+		<li>Asset Tile View Name</li>
+	  <blockquote>
+		<p>Control the label of File in Tile View:<br>
+			Three Settings control three appearance on three different scale.<br>
+		  <img src="pics/AssetTileViewName.jpg"></p>
+	  </blockquote>
+	  <li>Top Bar Font</li>
+		<blockquote>
+			<p>Control the Label of the Button on Top Bar:<br>
+			<img src="pics/TopBarFont.jpg"></p>
+		</blockquote>
+	<li>Path Text</li>
+	  <blockquote>
+		<p>Control the Path Text in Content browser:<br>
+		  <img src="pics/PathText.jpg"></p>
+	  </blockquote>
+	  <p><br></p>
+	<h2 id="ImportAndPackage">Import And Package</h2>
+	<p>UE4EditorCustomize can import theme that made by other people easily. Using UTheme File you can even import the theme that packaged with different Engine.</p>
+	<p>If you want to import a theme, just click the &quot;Import Theme&quot; button in setting panel:<br>
+		<a href="pics/ImportThemeButton.jpg" target="_blank"><img src="pics/ImportThemeButton.jpg"></a></p>
+	<p>If you have made a fantastic theme and want to share it to your Colleague, just click the &quot;Package Current Theme&quot; button, and you will see the following dialog:<br><img src="pics/PackageDialog.jpg"><br>
+		Then, fill your infomation in dialog or just click &quot;confirm&quot; if you don't want to add anything. Next,choose a place to save your UTheme file and then you can send your UTheme file to the people that you want to shared.    </p>
+		<h2 id="QA">Q&amp;A</h2>
+		<h3>Why my window become so big?</h3>
+	  <p>Try Check Your Setting At <br> &quot;Core Style-&gt;WindowStyle-&gt;Child Background Brush-&gt;ImageSize&quot;<br>
+		If this setting's value is very big(bigger than 200*200) ,you will need to reduce it to some small value like 32*32. Then your window size will return normal.</p>
+	  <h3>I made a big mistake and now I can't change the setting any more. What should I do?</h3>
+		<p>If you made a big mistake that cause the layout broken and can not do anything on this situation,there still have a way to restore your editor.<br>
+			Open 
+		&quot;Project/Saved/Saved/Config/Windows&quot; folder,you will find a file named &quot;Editor.ini&quot;. Delete it ,then your Editor will return normal. If you care about the other setting in this file ,you can also open it and delete the &quot;[/Script/UE4EditorCustomize.EditorCustomizeSetting]&quot; section and all  content of it . your proejct will return normal like the fore action.</p>
+		<h3>I package a UTheme,but when other people import it says &quot;Request a Higher Engine Version&quot;.</h3>
+	  <p>For now,the UTheme can cross Engine version but it can only contain Font and Texture. If you use other asset (Like Material), UTheme will request at least the same Engine version that you packge it. So If you want your UTheme can run on every Editor,please  only use Texture and Font to build your theme. If you still want to use the asset like material,you should package your theme with an old Engine.</p>
+		<h3>Can I connect will you?</h3>
+		<p>Of cource Yes, Just send an e-Mail to wwwbkkk@126.com. I will glad to hear your message.</p>
+		<p>&nbsp;</p>
+		<h2>Thanks.</h2>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <p> &copy; 2018 JackMyth | Documentation of UE4EditorCustomize</p>
+  </div>
+</footer>
+<script src="js/jquery.min.js"></script> 
+<script type="text/javascript" src="js/prettify/prettify.js"></script> 
+<script src="js/layout.js"></script> 
+<script src="js/jquery.localscroll-1.2.7.js" type="text/javascript"></script> 
+<script src="js/jquery.scrollTo-1.4.3.1.js" type="text/javascript"></script>
+</body>
+</html>
