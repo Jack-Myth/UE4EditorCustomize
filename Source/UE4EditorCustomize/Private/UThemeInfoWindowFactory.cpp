@@ -1,20 +1,19 @@
 // Copyright (C) 2018 JackMyth. All Rights Reserved.
 
 #include "UThemeInfoWindowFactory.h"
-#include <Engine.h>
-#include <SImage.h>
-#include <IPluginManager.h>
-#include <SlateImageBrush.h>
-#include <STextBlock.h>
-#include <SEditableTextBox.h>
-#include <SlateBrush.h>
-#include <SlateApplication.h>
-#include <IImageWrapperModule.h>
-#include <IImageWrapper.h>
+#include "Widgets/Images/SImage.h"
+#include "Interfaces/IPluginManager.h"
+#include "Brushes/SlateImageBrush.h"
+#include "Widgets/Text/STextBlock.h"
+#include "Widgets/Input/SEditableTextBox.h"
+#include "Styling/SlateBrush.h"
+#include "Framework/Application/SlateApplication.h"
+#include "IImageWrapperModule.h"
+#include "IImageWrapper.h"
 #include "EditorCustomizeSetting.h"
-#include "../DesktopPlatform/Public/DesktopPlatformModule.h"
-#include <SConstraintCanvas.h>
-#include <EditorStyleSet.h>
+#include "DesktopPlatformModule.h"
+#include "Widgets/Layout/SConstraintCanvas.h"
+#include "EditorStyleSet.h"
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 

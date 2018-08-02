@@ -4,7 +4,7 @@
 #include "SlateMaterialBrush.h"
 #include "Materials/MaterialInterface.h"
 #include "EditorStyleSet.h"
-#include "EditorStyleSettings.h"
+#include "Classes/EditorStyleSettings.h"
 
 UEditorCustomizeSetting::UEditorCustomizeSetting()
 {

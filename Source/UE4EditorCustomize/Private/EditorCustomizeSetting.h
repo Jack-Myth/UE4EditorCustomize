@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "UObject/ObjectMacros.h"
+#include "Styling/SlateTypes.h"
 #include "EditorCustomizeSetting.generated.h"
 
 USTRUCT()

@@ -3,11 +3,11 @@
 #pragma once
 
 #include "UE4EditorCustomize.h"
-#include <SWindow.h>
-#include <SlateImageBrush.h>
-#include <SScrollBox.h>
-#include <SMultiLineEditableTextBox.h>
-#include <SEditableTextBox.h>
+#include "Widgets/SWindow.h"
+#include "Brushes/SlateImageBrush.h"
+#include "Widgets/Layout/SScrollBox.h"
+#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "Widgets/Input/SEditableTextBox.h"
 
 /**
  * 

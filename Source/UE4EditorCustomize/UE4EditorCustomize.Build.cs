@@ -8,10 +8,10 @@ public class UE4EditorCustomize : ModuleRules
 	public UE4EditorCustomize(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PublicIncludePaths.AddRange(
+        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
+        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Private"));
+        PublicIncludePaths.AddRange(
 			new string[] {
-				"UE4EditorCustomize/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -19,7 +19,6 @@ public class UE4EditorCustomize : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"UE4EditorCustomize/Private",
 				// ... add other private include paths required here ...
 			}
 			);
@@ -28,7 +27,7 @@ public class UE4EditorCustomize : ModuleRules
         PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

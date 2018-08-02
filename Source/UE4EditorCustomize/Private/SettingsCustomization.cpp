@@ -1,12 +1,12 @@
 // Copyright (C) 2018 JackMyth. All Rights Reserved.
 
 #include "SettingsCustomization.h"
-#include <DetailLayoutBuilder.h>
-#include <DetailCategoryBuilder.h>
-#include <SButton.h>
-#include <ModuleManager.h>
-#include <DetailWidgetRow.h>
-#include <MessageDialog.h>
+#include "DetailLayoutBuilder.h"
+#include "DetailCategoryBuilder.h"
+#include "Widgets/Input/SButton.h"
+#include "Modules/ModuleManager.h"
+#include "DetailWidgetRow.h"
+#include "Misc/MessageDialog.h"
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 

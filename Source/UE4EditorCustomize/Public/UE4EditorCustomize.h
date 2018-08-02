@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ISettingsModule.h"
-#include "ModuleManager.h"
+#include "Modules/ModuleManager.h"
 
 struct FUThemeInfo_v0
 {
