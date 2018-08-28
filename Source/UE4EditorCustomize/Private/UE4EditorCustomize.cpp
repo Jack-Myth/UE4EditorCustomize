@@ -639,9 +639,42 @@ FString FUE4EditorCustomizeModule::Uint8ToExtension(uint8 Extension)
 	}
 }
 
+void FUE4EditorCustomizeModule::CacheOriginalBrushes()
+{
+	FSlateStyleSet* EditorStyles = (FSlateStyleSet*)&FEditorStyle::Get();
+	const FName BrushesName[]=
+	{
+		"Graph.Panel.SolidBackground", 
+		"ToolPanel.GroupBorder", 
+		"ToolPanel.DarkGroupBorder", 
+		"SCSEditor.TreePanel", 
+		"SettingsEditor.CheckoutWarningBorder", 
+		"DetailsView.CategoryTop_Hovered", 
+		"DetailsView.CategoryTop", 
+		"DetailsView.CategoryMiddle_Hovered",
+		"DetailsView.CategoryMiddle",
+		"DetailsView.CategoryMiddle_Highlighted",
+		"DetailsView.CollapsedCategory_Hovered",
+		"DetailsView.CollapsedCategory", 
+		"DetailsView.CategoryBottom",
+		"DetailsView.AdvancedDropdownBorder",
+		"Toolbar.Background"
+	};
+	for (const FName& CurName : BrushesName)
+	{
+		const FSlateBrush* tmpCachedBrush = EditorStyles->GetBrush(CurName);
+		CachedOriginalBrushes.FindOrAdd(CurName) = tmpCachedBrush;
+	}
+}
+
 void FUE4EditorCustomizeModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	
+	//Cache Original Brushes first.
+	//Prepare for ShutdownModule()
+	CacheOriginalBrushes();
+
 	UEditorCustomizeSetting* StyleSettings = GetMutableDefault<UEditorCustomizeSetting>();
 	GetMutableDefault<UEditorStyleSettings>()->bUseGrid = StyleSettings->EditorUseGrid;
 	ApplyCoreStyle(StyleSettings);
@@ -667,8 +700,10 @@ void FUE4EditorCustomizeModule::StartupModule()
 
 void FUE4EditorCustomizeModule::ShutdownModule()
 {
-	FEditorStyle::ResetToDefault();
-	FCoreStyle::ResetToDefault();
+	//Restore Cached Brush
+	//Editor will delete all editor brushes when exit.
+	//So if the brushes didn't restore, It will cause Editor Crash.
+	RestoreCachedBrush();
 	FModuleManager::LoadModuleChecked<ISettingsModule>("Settings").UnregisterSettings("Project", "Plugins", "UE4EditorCustomize");
 }
 
@@ -1029,10 +1064,13 @@ void FUE4EditorCustomizeModule::ResetTextStyle()
 	GConfig->Flush(false);
 }
 
-void FUE4EditorCustomizeModule::ResetAllImmediately()
+void FUE4EditorCustomizeModule::RestoreCachedBrush()
 {
-	FEditorStyle::ResetToDefault();
-	FCoreStyle::ResetToDefault();
+	FSlateStyleSet* EditorStyles = (FSlateStyleSet*)&FEditorStyle::Get();
+	for (auto it=CachedOriginalBrushes.CreateConstIterator();it;++it)
+	{
+		EditorStyles->Set(it->Key, (FSlateBrush*)it->Value);
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -31,6 +31,7 @@ class FUE4EditorCustomizeModule : public IModuleInterface
 	};
 
 	TSharedPtr<ISettingsSection> SettingS;
+	TMap<FName, const FSlateBrush*> CachedOriginalBrushes;
 	TArray<UObject*> FindReferencedAsset();
 	FString GetAssetAbsolutePath(FString PackageName);
 	bool _Internal_ImportUTheme_v0(TArray<uint8>& FileData, FText* ErrorMsg=nullptr);
@@ -48,6 +49,7 @@ class FUE4EditorCustomizeModule : public IModuleInterface
 	bool _Internal_AskUThemeInfo(FUThemeInfo_v0* OutInfo);
 	uint8 ExtensionToUint8(FString FileExtension);
 	FString Uint8ToExtension(uint8 Extension);
+	void CacheOriginalBrushes();
 public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
@@ -65,5 +67,5 @@ public:
 	void ResetEditorStyle();
 	void ResetCoreStyle();
 	void ResetTextStyle();
-	void ResetAllImmediately();
+	void RestoreCachedBrush();
 };
