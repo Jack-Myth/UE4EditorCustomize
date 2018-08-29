@@ -445,7 +445,7 @@ bool FUE4EditorCustomizeModule::_Internal_ImportTexture2D(TArray<uint8>& UThemeD
 	Offset += sizeof(float);
 	uint8 IsChromaKeyTexture;
 	IsChromaKeyTexture = UThemeData[Offset];
-	TextureObj->bChromaKeyTexture = (bool)IsChromaKeyTexture;
+	TextureObj->bChromaKeyTexture = (IsChromaKeyTexture==0?false:true);
 	Offset ++;
 	if (IsChromaKeyTexture)
 	{
