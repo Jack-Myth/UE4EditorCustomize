@@ -257,14 +257,11 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(const FString &_TexPath)
 	IImageWrapperModule& imageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
 	TSharedPtr<IImageWrapper> imageWrapper;
 	FString FileExtension = FPaths::GetExtension(_TexPath);
-	EPixelFormat PixelFormat = EPixelFormat::PF_B8G8R8A8;
+	EPixelFormat PixelFormat = EPixelFormat::PF_R8G8B8A8;
 	if (FileExtension.Equals("JPG", ESearchCase::IgnoreCase) || FileExtension.Equals("JPEG", ESearchCase::IgnoreCase))
 		imageWrapper = imageWrapperModule.CreateImageWrapper(EImageFormat::JPEG);
 	else if (FileExtension.Equals("PNG", ESearchCase::IgnoreCase))
-	{
-		PixelFormat = EPixelFormat::PF_R8G8B8A8;
 		imageWrapper = imageWrapperModule.CreateImageWrapper(EImageFormat::PNG);
-	}
 	else
 		imageWrapper = imageWrapperModule.CreateImageWrapper(EImageFormat::BMP);
 	TArray<uint8> OutArray;
@@ -293,7 +290,7 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(TArray<uint8> &ProvideData,
 	UTexture2D* OutTex = NULL;
 	IImageWrapperModule& imageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
 	TSharedPtr<IImageWrapper> imageWrapper;
-	EPixelFormat PixelFormat = EPixelFormat::PF_B8G8R8A8;
+	EPixelFormat PixelFormat = EPixelFormat::PF_R8G8B8A8;
 	if (ImageType.Equals("JPG", ESearchCase::IgnoreCase) || ImageType.Equals("JPEG", ESearchCase::IgnoreCase))
 		imageWrapper = imageWrapperModule.CreateImageWrapper(EImageFormat::JPEG);
 	else if (ImageType.Equals("PNG", ESearchCase::IgnoreCase))
@@ -330,13 +327,13 @@ TArray<FColor> UThemeInfoWindowFactory::uint8ToFColor(const TArray<uint8> origin
 
 	for (int i = 0; i < origin.Num(); i++) {
 		auxOrigin = origin[i];
-		auxDst.B = auxOrigin;
+		auxDst.R = auxOrigin;
 		i++;
 		auxOrigin = origin[i];
 		auxDst.G = auxOrigin;
 		i++;
 		auxOrigin = origin[i];
-		auxDst.R = auxOrigin;
+		auxDst.B = auxOrigin;
 		i++;
 		auxOrigin = origin[i];
 		auxDst.A = auxOrigin;
@@ -358,9 +355,9 @@ UTexture2D* UThemeInfoWindowFactory::TextureFromImage(const int32 SrcWidth, cons
 		SrcPtr = const_cast<FColor*>(&SrcData[(SrcHeight - 1 - y)*SrcWidth]);
 		for (int32 x = 0; x < SrcWidth; x++)
 		{
-			*DestPtr++ = SrcPtr->B;
-			*DestPtr++ = SrcPtr->G;
 			*DestPtr++ = SrcPtr->R;
+			*DestPtr++ = SrcPtr->G;
+			*DestPtr++ = SrcPtr->B;
 			if (UseAlpha)
 			{
 				*DestPtr++ = SrcPtr->A;

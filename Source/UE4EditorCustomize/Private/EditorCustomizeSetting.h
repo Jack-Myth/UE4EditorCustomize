@@ -140,6 +140,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "SettingsEditor.CheckoutWarningBorder"))
 		FSlateBrush SettingsEditor_CheckoutWarningBorder;
 
+	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "Docking.Tab.ContentAreaBrush"))
+		FSlateBrush Docking_Tab_ContentAreaBrush;
+
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "TableView.DarkRow"))
 		FTableRowStyle TableView_DarkRow;
 

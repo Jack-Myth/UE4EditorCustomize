@@ -658,7 +658,8 @@ void FUE4EditorCustomizeModule::CacheOriginalBrushes()
 		"DetailsView.CollapsedCategory", 
 		"DetailsView.CategoryBottom",
 		"DetailsView.AdvancedDropdownBorder",
-		"Toolbar.Background"
+		"Toolbar.Background",
+		"Docking.Tab.ContentAreaBrush"
 	};
 	for (const FName& CurName : BrushesName)
 	{
@@ -742,6 +743,7 @@ void FUE4EditorCustomizeModule::ApplyEditorStyle(UEditorCustomizeSetting* StyleS
 	EditorStyles->Set("DetailsView.CategoryBottom", &StyleSettings->DetailsView.CategoryBottom);
 	EditorStyles->Set("DetailsView.AdvancedDropdownBorder", &StyleSettings->DetailsView.AdvancedDropdownBorder);
 	EditorStyles->Set(TEXT("Toolbar.Background"), &StyleSettings->E_Toolbar_Background);
+	EditorStyles->Set("Docking.Tab.ContentAreaBrush", &StyleSettings->Docking_Tab_ContentAreaBrush);
 	(FCheckBoxStyle&)FEditorStyle::GetWidgetStyle<FCheckBoxStyle>("PlacementBrowser.Tab") = StyleSettings->PlacementBrowser_Tab;
 	(FCheckBoxStyle&)FEditorStyle::GetWidgetStyle<FCheckBoxStyle>("EditorModesToolbar.ToggleButton") = StyleSettings->EditorModesToolbar_ToggleButton;
 	(FTableRowStyle&)FEditorStyle::GetWidgetStyle<FTableRowStyle>("TableView.DarkRow") = StyleSettings->TableView_DarkRow;
@@ -1026,6 +1028,7 @@ void FUE4EditorCustomizeModule::ResetEditorStyle()
 	GConfig->RemoveKey(*Sec, TEXT("TableView_Header"), ConfigName);
 	GConfig->RemoveKey(*Sec, TEXT("E_Toolbar_Background"), ConfigName);
 	GConfig->RemoveKey(*Sec, TEXT("UMGEditor_Palette"), ConfigName);
+	GConfig->RemoveKey(*Sec, TEXT("Docking_Tab_ContentAreaBrush"), ConfigName);
 	GConfig->Flush(false);
 }
 
