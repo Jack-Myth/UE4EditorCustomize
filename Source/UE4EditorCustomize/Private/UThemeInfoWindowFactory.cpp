@@ -109,7 +109,7 @@ UThemeInfoWindowFactory::UThemeInfoWindowFactory(bool Editable)
 		[
 			SAssignNew(IntroBox, SMultiLineEditableTextBox)
 			.IsReadOnly(!IsEditable())
-			.OnTextChanged(FOnTextChanged::CreateLambda([this](const FText& NewText) { Intro = NewText; }))
+		.OnTextChanged(FOnTextChanged::CreateLambda([this](const FText& NewText) { Intro = NewText; }))
 		]
 		]
 	+ SVerticalBox::Slot().FillHeight(1.f).VAlign(VAlign_Bottom)
@@ -136,28 +136,27 @@ UThemeInfoWindowFactory::UThemeInfoWindowFactory(bool Editable)
 			[
 				SAssignNew(AddPreviewImageButton, SButton).Text(LOCTEXT("AddPreview", "Add Preview"))
 				.OnClicked(FOnClicked::CreateLambda([this]()
-													{
-														TArray<FString> PictureArray;
-														if (FDesktopPlatformModule::Get()->OpenFileDialog(nullptr, LOCTEXT("SelectPicture", "Select Picture").ToString(), "", "",
-																										  "All(*.JPG,*.JPEG,*.PNG,*.BMP)|*.jpg;*.jpeg;*.png;*.bmp|JPEG(*.JPG,*.JPEG)|*.jpg;*.jpeg|PNG(*.png)|*.png|BMP(*.bmp)|*.bmp", EFileDialogFlags::Multiple, PictureArray))
-														{
-															for (int i = 0; i < PictureArray.Num(); i++)
-															{
-																if (tmpImagePath.Contains(PictureArray[i]))
-																	continue;
-																AddPreviewPicture(GetLocalTexture(PictureArray[i]), true, PictureArray[i]);
-																tmpImagePath.Add(PictureArray[i]);
-															}
-														}
-														return FReply::Handled();
-													}))
+					{
+						TArray<FString> PictureArray;
+						if (FDesktopPlatformModule::Get()->OpenFileDialog(nullptr, LOCTEXT("SelectPicture", "Select Picture").ToString(), "", "",
+							"All(*.JPG,*.JPEG,*.PNG,*.BMP)|*.jpg;*.jpeg;*.png;*.bmp|JPEG(*.JPG,*.JPEG)|*.jpg;*.jpeg|PNG(*.png)|*.png|BMP(*.bmp)|*.bmp", EFileDialogFlags::Multiple, PictureArray))
+						{
+							for (int i = 0; i < PictureArray.Num(); i++)
+							{
+								if (tmpImagePath.Contains(PictureArray[i]))
+									continue;
+								AddPreviewPicture(GetLocalTexture(PictureArray[i]), true, PictureArray[i]);
+								tmpImagePath.Add(PictureArray[i]);
+							}
+						}
+						return FReply::Handled();
+					}))
 			];
 	}
 }
 
 UThemeInfoWindowFactory::~UThemeInfoWindowFactory()
-{
-}
+{}
 
 FReply UThemeInfoWindowFactory::OnThemeIconMouseDown(const FGeometry& Geometry, const FPointerEvent& PointerEvent)
 {
@@ -165,7 +164,7 @@ FReply UThemeInfoWindowFactory::OnThemeIconMouseDown(const FGeometry& Geometry, 
 	if (!IsEditable())
 		return FReply::Handled();
 	if (FDesktopPlatformModule::Get()->OpenFileDialog(nullptr, LOCTEXT("SelectPicture", "Select Picture").ToString(), "", "",
-													  "All(*.JPG,*.JPEG,*.PNG,*.BMP)|*.jpg;*.jpeg;*.png;*.bmp|JPEG(*.JPG,*.JPEG)|*.jpg;*.jpeg|PNG(*.png)|*.png|BMP(*.bmp)|*.bmp", EFileDialogFlags::None, PictureArray))
+		"All(*.JPG,*.JPEG,*.PNG,*.BMP)|*.jpg;*.jpeg;*.png;*.bmp|JPEG(*.JPG,*.JPEG)|*.jpg;*.jpeg|PNG(*.png)|*.png|BMP(*.bmp)|*.bmp", EFileDialogFlags::None, PictureArray))
 	{
 		IconImageBrush.SetResourceObject(GetLocalTexture(PictureArray[0]));
 		IconFilePath = PictureArray[0];
@@ -212,12 +211,39 @@ void UThemeInfoWindowFactory::AddPreviewPicture(UTexture2D* Picture, bool IsRemo
 				SNew(SButton)
 				.ButtonStyle(&RemoveImageButton)
 			.OnClicked(FOnClicked::CreateLambda([tmpCanvasPanel, FilePath, this]()
-												{
-													tmpImagePath.Remove(FilePath);
-													PreviewPicBox->RemoveSlot(tmpCanvasPanel.ToSharedRef());
-													return FReply::Handled();
-												}))
+				{
+					tmpImagePath.Remove(FilePath);
+					PreviewPicBox->RemoveSlot(tmpCanvasPanel.ToSharedRef());
+					return FReply::Handled();
+				}))
 			];
+	}
+	else
+	{
+		PreviewPicBox->SetOnMouseButtonUp(FPointerEventHandler::CreateLambda([Picture](const FGeometry& Geometry, const FPointerEvent& PointerEvent)
+			{
+				FVector2D PicSize = FVector2D(Picture->GetSizeX(), Picture->GetSizeY());
+				TSharedPtr<SWindow> PreviewWindow;
+				SAssignNew(PreviewWindow, SWindow)
+					.Title(LOCTEXT("ImagePreview", "Image Preview"))
+					.ClientSize(PicSize)
+					.Content()
+					[
+						SNew(SImage)
+							.Image(new FSlateImageBrush(Picture, PicSize))
+					];
+				PreviewWindow->SetOnMouseDoubleClick(FPointerEventHandler::CreateLambda([PreviewWindow](const FGeometry& Geometry, const FPointerEvent& PointerEvent)
+					{
+						if (PreviewWindow->IsWindowMaximized())
+							PreviewWindow->Restore();
+						else
+							PreviewWindow->Maximize();
+						return FReply::Handled();
+					}));
+				PreviewWindow->SetAsModalWindow();
+				FSlateApplication::Get().AddModalWindow(PreviewWindow.ToSharedRef(), FSlateApplication::Get().GetActiveTopLevelWindow());
+				return FReply::Handled();
+			}));
 	}
 	PreviewPicBox->Invalidate(EInvalidateWidget::LayoutAndVolatility);
 	MainVerticlePanel->Invalidate(EInvalidateWidget::LayoutAndVolatility);
@@ -306,7 +332,7 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(TArray<uint8> &ProvideData,
 		imageWrapper->SetCompressed(ProvideData.GetData(), ProvideData.Num()))
 	{
 		const TArray<uint8>* uncompressedRGBA = NULL;
-		if (imageWrapper->GetRaw(ERGBFormat::BGRA, 8, uncompressedRGBA))
+		if (imageWrapper->GetRaw(ERGBFormat::RGBA, 8, uncompressedRGBA))
 		{
 			const TArray<FColor> uncompressedFColor = uint8ToFColor(*uncompressedRGBA);
 			OutTex = TextureFromImage(
@@ -325,7 +351,8 @@ TArray<FColor> UThemeInfoWindowFactory::uint8ToFColor(const TArray<uint8> origin
 	uint8 auxOrigin;
 	FColor auxDst;
 
-	for (int i = 0; i < origin.Num(); i++) {
+	for (int i = 0; i < origin.Num(); i++)
+	{
 		auxOrigin = origin[i];
 		auxDst.R = auxOrigin;
 		i++;
