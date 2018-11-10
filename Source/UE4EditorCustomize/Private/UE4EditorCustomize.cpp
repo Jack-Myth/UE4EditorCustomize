@@ -519,7 +519,10 @@ bool FUE4EditorCustomizeModule::_Internal_ImportFont(TArray<uint8>& UThemeData, 
 		return false;
 #endif
 	FString AssetName = FPackageName::GetLongPackageAssetName(AssetPackageName);
-	UPackage* AssetPackage = CreatePackage(nullptr, *AssetPackageName);
+	//the Asset package may already exist
+	UPackage* AssetPackage = FindPackage(nullptr, *AssetPackageName);
+	if (!AssetPackage)
+		AssetPackage = CreatePackage(nullptr, *AssetPackageName);
 	UFont* NewFontAsset = Cast<UFont>(StaticDuplicateObject(tmpFont, AssetPackage,*AssetName));
 	if (!NewFontAsset)
 		return false;
