@@ -868,7 +868,7 @@ void FUE4EditorCustomizeModule::ShowDialogForImport()
 
 void FUE4EditorCustomizeModule::ImportBuiltInTheme()
 {
-	if (ImportUTheme(IPluginManager::Get().FindPlugin(TEXT("UE4EditorCustomize"))->GetBaseDir() + FString("/Resources/UE4EditorCustomize.UTheme")))
+	if (ImportUTheme(IPluginManager::Get().FindPlugin(TEXT("UE4EditorCustomize"))->GetBaseDir() + FString("/Resources/HatsuneMiku.UTheme")))
 	{
 		FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("ImportSucceed","Import Succeed."));
 	}

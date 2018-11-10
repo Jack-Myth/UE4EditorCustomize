@@ -220,13 +220,13 @@ void UThemeInfoWindowFactory::AddPreviewPicture(UTexture2D* Picture, bool IsRemo
 	}
 	else
 	{
-		PreviewPicBox->SetOnMouseButtonUp(FPointerEventHandler::CreateLambda([Picture](const FGeometry& Geometry, const FPointerEvent& PointerEvent)
+		tmpCanvasPanel->SetOnMouseButtonUp(FPointerEventHandler::CreateLambda([Picture](const FGeometry& Geometry, const FPointerEvent& PointerEvent)
 			{
 				FVector2D PicSize = FVector2D(Picture->GetSizeX(), Picture->GetSizeY());
 				TSharedPtr<SWindow> PreviewWindow;
 				SAssignNew(PreviewWindow, SWindow)
 					.Title(LOCTEXT("ImagePreview", "Image Preview"))
-					.ClientSize(PicSize)
+					.ClientSize(PicSize*1280/Picture->GetSizeX())
 					.Content()
 					[
 						SNew(SImage)
@@ -253,9 +253,9 @@ void UThemeInfoWindowFactory::ApplyUThemeInfo(FUThemeInfo_v0 UThemeInfo)
 {
 	NameBox->SetText(FText::FromString(UThemeInfo.Name));
 	AuthorBox->SetText(FText::FromString(UThemeInfo.Author));
-	SizeBox->SetText(FText::Format(FTextFormat::FromString("{Size}MB"), FText::FromString(FString::SanitizeFloat((int)(UThemeInfo.Size * 100) / 100.f))));
-	VersionBox->SetText(FText::Format(FTextFormat::FromString("UTheme v{Version}"), FText::FromString(FString::FromInt(UThemeInfo.Version))));
-	EngineVersionBox->SetText(FText::Format(FTextFormat::FromString("UE 4.{Version}"), FText::FromString(FString::FromInt(UThemeInfo.RequestEngineVersion))));
+	SizeBox->SetText(FText::Format(FTextFormat::FromString("{0}MB"), FText::FromString(FString::SanitizeFloat((int)(UThemeInfo.Size * 100) / 100.f))));
+	VersionBox->SetText(FText::Format(FTextFormat::FromString("UTheme v{0}"), UThemeInfo.Version));
+	EngineVersionBox->SetText(FText::Format(FTextFormat::FromString("UE 4.{0}"),UThemeInfo.RequestEngineVersion));
 	IntroBox->SetText(FText::FromString(UThemeInfo.Intro));
 }
 
