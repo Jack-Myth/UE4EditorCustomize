@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
-	"Version": 7,
-	"VersionName": "1.31",
+	"Version": 8,
+	"VersionName": "1.4",
 	"FriendlyName": "UE4Editor Customize",
 	"Description": "Change UE4Editor To a New Style.",
 	"Category": "Editor",
