@@ -8,7 +8,7 @@
 #include "EditorCustomizeSetting.generated.h"
 
 USTRUCT()
-struct FDetailsView
+struct FEditorCustomizeDetailsView
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -147,7 +147,7 @@ public:
 		FTableRowStyle TableView_DarkRow;
 
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "DetailsView"))
-		FDetailsView DetailsView;
+		FEditorCustomizeDetailsView DetailsView;
 
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "PlacementBrowser.Tab"))
 		FCheckBoxStyle PlacementBrowser_Tab;
