@@ -41,6 +41,7 @@ public class UE4EditorCustomize : ModuleRules
 				"Slate",
 				"SlateCore",
                 "EditorStyle",
+				"UnrealEd",
                 "DesktopPlatform",
                 "Projects",
                 "AssetTools",

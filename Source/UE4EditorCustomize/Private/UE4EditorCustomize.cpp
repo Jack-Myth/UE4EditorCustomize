@@ -30,6 +30,7 @@
 #include <AssetToolsModule.h>
 #include <../Launch/Resources/Version.h>
 #include <IAssetTools.h>
+#include <Editor\UnrealEd\Classes\Factories\FontFileImportFactory.h>
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 
@@ -534,17 +535,14 @@ bool FUE4EditorCustomizeModule::_Internal_ImportFont(TArray<uint8>& UThemeData, 
 
 UFontFace* FUE4EditorCustomizeModule::_Internal_ImportFontFace(TArray<uint8>& UThemeData, int& Offset)
 {
-	UFontFace* tmpFontFace = NewObject<UFontFace>();
 	FString AssetPathName;
 	AssetPathName = FString((TCHAR*)(UThemeData.GetData() + Offset));
 	Offset += AssetPathName.Len() *2 + 2;
 	int FontDataSize = 0;
 	memcpy(&FontDataSize, UThemeData.GetData() + Offset, sizeof(int));
 	Offset += sizeof(int);
-	TArray<uint8> FontData;
-	FontData.Append(UThemeData.GetData() + Offset,FontDataSize);
+	int FontDataBeginIndex = Offset;
 	Offset += FontDataSize;
-	tmpFontFace->FontFaceData->SetData(MoveTemp(FontData));
 	FString AssetPackageName = FPackageName::ObjectPathToPackageName(AssetPathName);
 	FText errorMsg;
 #if ENGINE_MINOR_VERSION >=18
@@ -553,13 +551,17 @@ UFontFace* FUE4EditorCustomizeModule::_Internal_ImportFontFace(TArray<uint8>& UT
 #endif
 	FString AssetName = FPackageName::GetLongPackageAssetName(AssetPackageName);
 	UPackage* AssetPackage = CreatePackage(nullptr, *AssetPackageName);
-	UFontFace* NewFontFaceAsset = Cast<UFontFace>(StaticDuplicateObject(tmpFontFace, AssetPackage, *AssetName));
-	if (!NewFontFaceAsset)
-		return false;
-	NewFontFaceAsset->SetFlags(RF_Public | RF_Standalone);
+	auto* FontFaceFactory = GetMutableDefault<UFontFileImportFactory>();
+	const uint8* FontDataBegin = UThemeData.GetData() + FontDataBeginIndex;
+	bool PrevAutoState = GIsAutomationTesting;
+	GIsAutomationTesting = true;
+	UObject* NewFontFaceAsset = FontFaceFactory->FactoryCreateBinary(
+		UFontFace::StaticClass(), AssetPackage, *AssetName, RF_Public | RF_Standalone,
+		nullptr, *UFontFace::StaticClass()->GetName(), FontDataBegin, FontDataBegin + FontDataSize, nullptr);
+	GIsAutomationTesting = PrevAutoState;
 	NewFontFaceAsset->MarkPackageDirty();
 	FAssetRegistryModule::AssetCreated(NewFontFaceAsset);
-	return NewFontFaceAsset;
+	return Cast<UFontFace>(NewFontFaceAsset);
 }
 
 bool FUE4EditorCustomizeModule::_Internal_LoadUThemeInfo(TArray<uint8>& UThemeData, int& Offset, int RequestVersion, int UThemeVersion, float Size)
@@ -662,7 +664,8 @@ void FUE4EditorCustomizeModule::CacheOriginalBrushes()
 		"DetailsView.CategoryBottom",
 		"DetailsView.AdvancedDropdownBorder",
 		"Toolbar.Background",
-		"Docking.Tab.ContentAreaBrush"
+		"Docking.Tab.ContentAreaBrush",
+		"ContentBrowser.TopBar.GroupBorder"
 	};
 	for (const FName& CurName : BrushesName)
 	{
@@ -747,6 +750,7 @@ void FUE4EditorCustomizeModule::ApplyEditorStyle(UEditorCustomizeSetting* StyleS
 	EditorStyles->Set("DetailsView.AdvancedDropdownBorder", &StyleSettings->DetailsView.AdvancedDropdownBorder);
 	EditorStyles->Set(TEXT("Toolbar.Background"), &StyleSettings->E_Toolbar_Background);
 	EditorStyles->Set("Docking.Tab.ContentAreaBrush", &StyleSettings->Docking_Tab_ContentAreaBrush);
+	EditorStyles->Set("ContentBrowser.TopBar.GroupBorder", &StyleSettings->ContentBrowser_TopBar_GroupBorder);
 	(FCheckBoxStyle&)FEditorStyle::GetWidgetStyle<FCheckBoxStyle>("PlacementBrowser.Tab") = StyleSettings->PlacementBrowser_Tab;
 	(FCheckBoxStyle&)FEditorStyle::GetWidgetStyle<FCheckBoxStyle>("EditorModesToolbar.ToggleButton") = StyleSettings->EditorModesToolbar_ToggleButton;
 	(FTableRowStyle&)FEditorStyle::GetWidgetStyle<FTableRowStyle>("TableView.DarkRow") = StyleSettings->TableView_DarkRow;
@@ -916,8 +920,9 @@ bool FUE4EditorCustomizeModule::PackageTheme(FString FilePath, FUThemeInfo_v0 UT
 	UThemeInfoData.Append(UThemeInfo.Intro.Len()>0 ? (uint8*)UThemeInfo.Intro.GetCharArray().GetData() : tmpZero, UThemeInfo.Intro.Len() * 2 + 2);
 	if (UThemeInfo.IconImagePath=="")
 	{
-		int tmpZero = 0;
-		UThemeInfoData.Append((uint8*)&tmpZero, sizeof(int));
+		//Prevent err C4456
+		int _tmpZero = 0;
+		UThemeInfoData.Append((uint8*)&_tmpZero, sizeof(int));
 	}
 	else
 	{
@@ -1032,6 +1037,7 @@ void FUE4EditorCustomizeModule::ResetEditorStyle()
 	GConfig->RemoveKey(*Sec, TEXT("E_Toolbar_Background"), ConfigName);
 	GConfig->RemoveKey(*Sec, TEXT("UMGEditor_Palette"), ConfigName);
 	GConfig->RemoveKey(*Sec, TEXT("Docking_Tab_ContentAreaBrush"), ConfigName);
+	GConfig->RemoveKey(*Sec, TEXT("ContentBrowser_TopBar_GroupBorder"), ConfigName);
 	GConfig->Flush(false);
 }
 

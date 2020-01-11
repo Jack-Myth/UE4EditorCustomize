@@ -143,6 +143,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "Docking.Tab.ContentAreaBrush"))
 		FSlateBrush Docking_Tab_ContentAreaBrush;
 
+	UPROPERTY(Config,EditAnywhere,Category="Editor Style",meta = (DisplayName="ContentBrowser.TopBar.GroupBorder"))
+		FSlateBrush ContentBrowser_TopBar_GroupBorder;
+
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "TableView.DarkRow"))
 		FTableRowStyle TableView_DarkRow;
 

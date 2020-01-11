@@ -40,6 +40,7 @@ void UEditorCustomizeSetting::InitEditorStyle()
 	UMGEditor_Palette.UMGEditor_PaletteHeader = FEditorStyle::GetWidgetStyle<FTableRowStyle>("UMGEditor.PaletteHeader");
 	UMGEditor_Palette.UMGEditor_PaletteItem = FEditorStyle::GetWidgetStyle<FTableRowStyle>("UMGEditor.PaletteItem");
 	Docking_Tab_ContentAreaBrush = *FEditorStyle::GetBrush("Docking.Tab.ContentAreaBrush");
+	ContentBrowser_TopBar_GroupBorder = *FEditorStyle::GetBrush("ContentBrowser.TopBar.GroupBorder");
 }
 
 void UEditorCustomizeSetting::InitCoreStyle()
