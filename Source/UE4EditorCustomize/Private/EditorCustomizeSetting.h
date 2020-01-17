@@ -120,79 +120,79 @@ struct FUE4ECCustomStyle
 		int CustomStyleCount = 0;
 	//////////////////////////////////////////////////////////////////////////
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSlateBrush"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FSlateBrush"))
 		TMap<FName, FSlateBrush> SlateBrush;
 
-	UPROPERTY(EditAnywhere,meta=(DisplayName="SlateFontInfo"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle",meta=(DisplayName="SlateFontInfo"))
 		TMap<FName, FSlateFontInfo> SlateFontInfo;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTextBlockStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FTextBlockStyle"))
 		TMap<FName, FTextBlockStyle> TextBlockStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTextBlockStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FTextBlockStyle"))
 		TMap<FName, FButtonStyle> ButtonStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FComboButtonStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FComboButtonStyle"))
 		TMap<FName, FComboButtonStyle> ComboButtonStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FComboBoxStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FComboBoxStyle"))
 		TMap<FName, FComboBoxStyle> ComboBoxStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FEditableTextStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FEditableTextStyle"))
 		TMap<FName, FEditableTextStyle> EditableTextStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBarStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FScrollBarStyle"))
 		TMap<FName, FScrollBarStyle> ScrollBarStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FEditableTextBoxStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FEditableTextBoxStyle"))
 		TMap<FName, FEditableTextBoxStyle> EditableTextBoxStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FInlineEditableTextBlockStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FInlineEditableTextBlockStyle"))
 		TMap<FName, FInlineEditableTextBlockStyle> InlineEditableTextBlockStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FProgressBarStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FProgressBarStyle"))
 		TMap<FName, FProgressBarStyle> ProgressBarStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FExpandableAreaStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FExpandableAreaStyle"))
 		TMap<FName, FExpandableAreaStyle> ExpandableAreaStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSearchBoxStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FSearchBoxStyle"))
 		TMap<FName, FSearchBoxStyle> SearchBoxStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSliderStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FSliderStyle"))
 		TMap<FName, FSliderStyle> SliderStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FVolumeControlStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FVolumeControlStyle"))
 		TMap<FName, FVolumeControlStyle> VolumeControlStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FInlineTextImageStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FInlineTextImageStyle"))
 		TMap<FName, FInlineTextImageStyle> InlineTextImageStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSpinBoxStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FSpinBoxStyle"))
 		TMap<FName, FSpinBoxStyle> SpinBoxStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSplitterStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FSplitterStyle"))
 		TMap<FName, FSplitterStyle> SplitterStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTableRowStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FTableRowStyle"))
 		TMap<FName, FTableRowStyle> TableRowStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTableColumnHeaderStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FTableColumnHeaderStyle"))
 		TMap<FName, FTableColumnHeaderStyle> TableColumnHeaderStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FHeaderRowStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FHeaderRowStyle"))
 		TMap<FName, FHeaderRowStyle> HeaderRowStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FDockTabStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FDockTabStyle"))
 		TMap<FName, FDockTabStyle> DockTabStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBoxStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FScrollBoxStyle"))
 		TMap<FName, FScrollBoxStyle> ScrollBoxStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBorderStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FScrollBorderStyle"))
 		TMap<FName, FScrollBorderStyle> ScrollBorderStyle;
 
-	UPROPERTY(EditAnywhere, meta = (DisplayName = "FWindowStyle"))
+	UPROPERTY(EditAnywhere,Category="CustomStyle", meta = (DisplayName = "FWindowStyle"))
 		TMap<FName, FWindowStyle> WindowStyle;
 
 };
