@@ -7,18 +7,22 @@
 #include "Modules/ModuleManager.h"
 #include "DetailWidgetRow.h"
 #include "Misc/MessageDialog.h"
+#include <Widgets/Text/STextBlock.h>
+#include <Widgets/Input/SEditableText.h>
+#include <SNameComboBox.h>
+#include <../Private/PropertyNode.h>
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 
-SettingsCustomization::SettingsCustomization()
+UE4ECSettingsCustomization::UE4ECSettingsCustomization()
 {
 }
 
-SettingsCustomization::~SettingsCustomization()
+UE4ECSettingsCustomization::~UE4ECSettingsCustomization()
 {
 }
 
-void SettingsCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailLyoutBuilder)
+void UE4ECSettingsCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailLyoutBuilder)
 {
 	IDetailCategoryBuilder& ResetToDefaultCategory= DetailLyoutBuilder.EditCategory(TEXT("UE4EditorCustomize"));
 	ResetToDefaultCategory.AddCustomRow(FText::FromString("UE4EditorCustomize"))
@@ -111,5 +115,59 @@ void SettingsCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailLyoutBu
 		]
 		];
 }
+
+/*void UE4ECCustomStyleEditorCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+{
+	auto& UE4ECModule = FModuleManager::LoadModuleChecked<FUE4EditorCustomizeModule>("UE4EditorCustomize");
+	auto& CustomStyleCategory = DetailBuilder.EditCategory(TEXT("CustomStyle"));
+	CustomStyleCategory.AddCustomRow(FText::FromString("+"))[
+		SNew(SButton)
+			.Text(LOCTEXT("AddCustomStyle", "Add Custom Style"))
+			.OnClicked_Lambda([&CustomStyleCategory]()
+				{
+					TSharedPtr<SEditableText> StyleNameWidget;
+					TSharedPtr<SNameComboBox> StyleTypeWidget;
+					const char* StyleTypeCollection[] =
+					{
+						"FSlateBrush"
+					};
+					TArray<TSharedPtr<FName>> StyleTypeSource;
+					for (const char* mStyleType: StyleTypeCollection)
+					{
+						StyleTypeSource.Add(MakeShareable(new FName(mStyleType)));
+					}
+
+					//Open a dialog
+					SNew(SWindow)
+						.Title(LOCTEXT("AddCustomStyle", "Add Custom Style"))
+						.Content()[
+							SNew(SVerticalBox)
+								+ SVerticalBox::Slot()[
+									SNew(STextBlock).Text(LOCTEXT("StyleName:", "Style Name:"))
+								]
+								+ SVerticalBox::Slot()[
+									SAssignNew(StyleNameWidget, SEditableText)
+								]
+								+ SVerticalBox::Slot()[
+									SNew(STextBlock).Text(LOCTEXT("StyleType:", "Style Type:"))
+								]
+								+ SVerticalBox::Slot()[
+									SAssignNew(StyleTypeWidget,SNameComboBox)
+									.OptionsSource(&StyleTypeSource)
+									.InitiallySelectedItem(StyleTypeSource[0])
+								]
+								+ SVerticalBox::Slot()[
+									SNew(SButton)
+										.Text(LOCTEXT("OK","OK"))
+										.OnClicked_Lambda([]()
+										{
+
+										})
+								].HAlign(HAlign_Right)
+						]
+				})
+	];
+
+}*/
 
 #undef LOCTEXT_NAMESPACE

@@ -8,11 +8,17 @@
 /**
  * 
  */
-class SettingsCustomization :public IDetailCustomization
+class UE4ECSettingsCustomization :public IDetailCustomization
 {
 public:
-	SettingsCustomization();
-	~SettingsCustomization();
+	UE4ECSettingsCustomization();
+	~UE4ECSettingsCustomization();
 	
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailLyoutBuilder) override;
 };
+
+/*class UE4ECCustomStyleEditorCustomization :public IDetailCustomization
+{
+	// Inherited via IDetailCustomization
+	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
+};*/

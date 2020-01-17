@@ -672,6 +672,47 @@ void FUE4EditorCustomizeModule::CacheOriginalBrushes()
 		const FSlateBrush* tmpCachedBrush = EditorStyles->GetBrush(CurName);
 		CachedOriginalBrushes.FindOrAdd(CurName) = tmpCachedBrush;
 	}
+	ReCacheCustomBrushes();
+}
+
+void FUE4EditorCustomizeModule::ReCacheCustomBrushes()
+{
+	UEditorCustomizeSetting* StyleSettings = GetMutableDefault<UEditorCustomizeSetting>();
+	FSlateStyleSet* EditorStyles = (FSlateStyleSet*)&FEditorStyle::Get();
+	FSlateStyleSet* CoreStyles = (FSlateStyleSet*)&FCoreStyle::Get();
+	auto tmpFunc = [](
+		TMap<FName, const FSlateBrush*>& CachedCustomBrushes,
+		FSlateStyleSet* SlateStyleSet,
+		TMap<FName, FSlateBrush>& SlateBrushes)
+	{
+		TArray<FName> tmpBrush;
+		TArray<FName> tmpNeedCachedBrush;
+		for (const auto& CurBrushPair : SlateBrushes)
+		{
+			if (!CachedCustomBrushes.Find(CurBrushPair.Key))
+				tmpNeedCachedBrush.Add(CurBrushPair.Key);
+			else
+				tmpBrush.Add(CurBrushPair.Key);
+		}
+		//Release the brush that's no longer need to be cached.
+		for (const FName& NeedReleasedBrush : tmpBrush)
+		{
+			const FSlateBrush* copiedValue;
+			CachedCustomBrushes.RemoveAndCopyValue(NeedReleasedBrush, copiedValue);
+			SlateStyleSet->Set(NeedReleasedBrush, (FSlateBrush*)copiedValue);
+		}
+		//ReCache the brushes.
+		for (const FName& NeedCachedKey : tmpNeedCachedBrush)
+		{
+			const FSlateBrush* originalBrush = SlateStyleSet->GetBrush(NeedCachedKey);
+			if (!originalBrush)
+				continue; //Don't cache if it's a wrong key
+			CachedCustomBrushes.Add(NeedCachedKey) = originalBrush;
+			SlateStyleSet->Set(NeedCachedKey, SlateBrushes.Find(NeedCachedKey));
+		}
+	};
+	tmpFunc(CachedCustomBrushesEditor, EditorStyles, StyleSettings->CustomStyleEditor.SlateBrush);
+	tmpFunc(CachedCustomBrushesCore, CoreStyles, StyleSettings->CustomStyleCore.SlateBrush);
 }
 
 void FUE4EditorCustomizeModule::StartupModule()
@@ -687,8 +728,10 @@ void FUE4EditorCustomizeModule::StartupModule()
 	ApplyCoreStyle(StyleSettings);
 	ApplyEditorStyle(StyleSettings);
 	ApplyTextStyle(StyleSettings);
+	ApplyCustomStyle(StyleSettings);
+	//ReCacheCustomBrushes();
 	FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor").RegisterCustomClassLayout(UEditorCustomizeSetting::StaticClass()->GetFName(),
-																										 FOnGetDetailCustomizationInstance::CreateLambda([]() {return MakeShareable(new SettingsCustomization); }));
+																										 FOnGetDetailCustomizationInstance::CreateLambda([]() {return MakeShareable(new UE4ECSettingsCustomization); }));
 	SettingS = FModuleManager::LoadModuleChecked<ISettingsModule>("Settings").RegisterSettings("Project", "Plugins",
 																					TEXT("UE4EditorCustomize"), FText::FromString("UE4 EditorCustomize"),
 																					FText::FromString("Setting For UE4EditorCustomize"), GetMutableDefault<UEditorCustomizeSetting>());
@@ -728,6 +771,11 @@ bool FUE4EditorCustomizeModule::OnSettingModified()
 	(FLinearColor&)FEditorStyle::GetColor("Graph.Panel.GridCenterColor") = StyleSettings->Graph_Panel.GridCenterColor;
 	ApplyCoreStyle(StyleSettings);
 	ApplyTextStyle(StyleSettings);
+
+	//Check if User add a new style
+	StyleSettings->InitCustomStyle((FSlateStyleSet*)&FEditorStyle::Get(), StyleSettings->CustomStyleEditor);
+	StyleSettings->InitCustomStyle((FSlateStyleSet*)&FCoreStyle::Get(), StyleSettings->CustomStyleCore);
+	ApplyCustomStyle(StyleSettings);
 	return true;
 }
 
@@ -800,6 +848,49 @@ void FUE4EditorCustomizeModule::ApplyTextStyle(class UEditorCustomizeSetting* St
 	((FSlateStyleSet&)FEditorStyle::Get()).Set("ContentBrowser.SourceTreeRootItemFont", StyleSettings->ContentBrowserFont.SourceTreeRootItemFont);
 	(FTextBlockStyle&)FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.PathText") = StyleSettings->ContentBrowserFont.PathText;
 	(FTextBlockStyle&)FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.TopBar.Font") = StyleSettings->ContentBrowserFont.TopBar_Font;
+}
+
+void FUE4EditorCustomizeModule::ApplyCustomStyle(class UEditorCustomizeSetting* StyleSettings)
+{
+	ReCacheCustomBrushes();
+	//Apply Font
+	FSlateStyleSet* EditorStyles = (FSlateStyleSet*)&FEditorStyle::Get();
+	FSlateStyleSet* CoreStyles = (FSlateStyleSet*)&FCoreStyle::Get();
+	auto tmpFunc = [&StyleSettings](FSlateStyleSet* SlateStyleSet, FUE4ECCustomStyle& CustomStyle)
+	{
+		//Apply Font First
+		for (auto& FontPair : CustomStyle.SlateFontInfo)
+			SlateStyleSet->Set(FontPair.Key, FontPair.Value);
+#define APPLY_STYLE(STYLE_NAME) for (auto& curStylePair:CustomStyle.STYLE_NAME) \
+		if (SlateStyleSet->HasWidgetStyle<F##STYLE_NAME>(curStylePair.Key))\
+			(F##STYLE_NAME&)SlateStyleSet->GetWidgetStyle<F##STYLE_NAME>(curStylePair.Key) = curStylePair.Value
+		APPLY_STYLE(ButtonStyle);
+		APPLY_STYLE(ComboBoxStyle);
+		APPLY_STYLE(ComboButtonStyle);
+		APPLY_STYLE(DockTabStyle);
+		APPLY_STYLE(EditableTextBoxStyle);
+		APPLY_STYLE(EditableTextStyle);
+		APPLY_STYLE(ExpandableAreaStyle);
+		APPLY_STYLE(HeaderRowStyle);
+		APPLY_STYLE(InlineEditableTextBlockStyle);
+		APPLY_STYLE(InlineTextImageStyle);
+		APPLY_STYLE(ProgressBarStyle);
+		APPLY_STYLE(ScrollBarStyle);
+		APPLY_STYLE(ScrollBorderStyle);
+		APPLY_STYLE(ScrollBoxStyle);
+		APPLY_STYLE(SearchBoxStyle);
+		APPLY_STYLE(SliderStyle);
+		APPLY_STYLE(SpinBoxStyle);
+		APPLY_STYLE(SplitterStyle);
+		APPLY_STYLE(TableColumnHeaderStyle);
+		APPLY_STYLE(TableRowStyle);
+		APPLY_STYLE(TextBlockStyle);
+		APPLY_STYLE(VolumeControlStyle);
+		APPLY_STYLE(WindowStyle);
+#undef APPLY_STYLE
+	};
+	tmpFunc(EditorStyles, StyleSettings->CustomStyleEditor);
+	tmpFunc(EditorStyles, StyleSettings->CustomStyleCore);
 }
 
 bool FUE4EditorCustomizeModule::ImportSettingFromIni(FString FilePath)
@@ -1079,10 +1170,16 @@ void FUE4EditorCustomizeModule::ResetTextStyle()
 void FUE4EditorCustomizeModule::RestoreCachedBrush()
 {
 	FSlateStyleSet* EditorStyles = (FSlateStyleSet*)&FEditorStyle::Get();
+	FSlateStyleSet* CoreStyles = (FSlateStyleSet*)&FCoreStyle::Get();
 	for (auto it=CachedOriginalBrushes.CreateConstIterator();it;++it)
 	{
 		EditorStyles->Set(it->Key, (FSlateBrush*)it->Value);
 	}
+
+	for (auto it=CachedCustomBrushesEditor.CreateConstIterator();it;++it)
+		EditorStyles->Set(it->Key, (FSlateBrush*)it->Value);
+	for (auto it = CachedCustomBrushesCore.CreateConstIterator(); it; ++it)
+		CoreStyles->Set(it->Key, (FSlateBrush*)it->Value);
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -5,13 +5,41 @@
 #include "Materials/MaterialInterface.h"
 #include "EditorStyleSet.h"
 #include "Classes/EditorStyleSettings.h"
+#include <Styling/SlateTypes.h>
+#include <Styling/SlateStyle.h>
 
 UEditorCustomizeSetting::UEditorCustomizeSetting()
 {
 	InitEditorStyle();
 	InitCoreStyle();
 	InitTextStyle();
+	//InitCustomStyle((FSlateStyleSet*)&FEditorStyle::Get(), CustomStyleEditor);
+	//InitCustomStyle((FSlateStyleSet*)&FCoreStyle::Get(), CustomStyleCore);
 	EditorUseGrid = GetDefault<UEditorStyleSettings>()->bUseGrid;
+}
+
+void UEditorCustomizeSetting::PostProcessCustomStyle(UScriptStruct* StyleStruct,void* StructPtr)
+{
+	//Property need to be processed
+	//such as FSlateColor
+	//SlateColor with linked flag will cause some bug while save and load.
+	//It will crash the editor.
+	for (UProperty* CurProperty = StyleStruct->PropertyLink;CurProperty;CurProperty=CurProperty->PropertyLinkNext)
+	{
+		//Check if it's a FSlateColor
+		FName CppType = *CurProperty->GetCPPType();
+		if (CppType =="FSlateColor")
+		{
+			//Unlink this color.
+			auto* pColor = Cast<UStructProperty>(CurProperty)->ContainerPtrToValuePtr<FSlateColor>(StructPtr);
+			if (pColor)
+				pColor->Unlink();
+		}
+		else if (auto* StructProperty=Cast<UStructProperty>(CurProperty))
+		{
+			PostProcessCustomStyle(StructProperty->Struct, StructProperty->ContainerPtrToValuePtr<void>(StructPtr));
+		}
+	}
 }
 
 void UEditorCustomizeSetting::InitEditorStyle()
@@ -79,4 +107,73 @@ void UEditorCustomizeSetting::InitTextStyle()
 	ContentBrowserFont.SourceTreeRootItemFont = FEditorStyle::GetFontStyle("ContentBrowser.AssetTileViewNameFont");
 	ContentBrowserFont.PathText = FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.PathText");
 	ContentBrowserFont.TopBar_Font = FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.TopBar.Font");
+}
+
+void UEditorCustomizeSetting::InitCustomStyle(FSlateStyleSet* SlateStyleSet, FUE4ECCustomStyle& CustomStyle)
+{
+	//SlateBrush is already inited outside.
+	for (auto& curFontInfo : CustomStyle.SlateFontInfo)
+		curFontInfo.Value = FEditorStyle::GetFontStyle(curFontInfo.Key);
+	int CurCustomStyleCount = 0;
+#define CHECK_STYLE_VALID(STYLE_NAME) for (auto& curStylePair : CustomStyle.STYLE_NAME)\
+			if (SlateStyleSet->HasWidgetStyle<F##STYLE_NAME>(curStylePair.Key))\
+				CurCustomStyleCount++;
+	CHECK_STYLE_VALID(ButtonStyle);
+	CHECK_STYLE_VALID(ComboBoxStyle);
+	CHECK_STYLE_VALID(ComboButtonStyle);
+	CHECK_STYLE_VALID(DockTabStyle);
+	CHECK_STYLE_VALID(EditableTextBoxStyle);
+	CHECK_STYLE_VALID(EditableTextStyle);
+	CHECK_STYLE_VALID(ExpandableAreaStyle);
+	CHECK_STYLE_VALID(HeaderRowStyle);
+	CHECK_STYLE_VALID(InlineEditableTextBlockStyle);
+	CHECK_STYLE_VALID(InlineTextImageStyle);
+	CHECK_STYLE_VALID(ProgressBarStyle);
+	CHECK_STYLE_VALID(ScrollBarStyle);
+	CHECK_STYLE_VALID(ScrollBorderStyle);
+	CHECK_STYLE_VALID(ScrollBoxStyle);
+	CHECK_STYLE_VALID(SearchBoxStyle);
+	CHECK_STYLE_VALID(SliderStyle);
+	CHECK_STYLE_VALID(SpinBoxStyle);
+	CHECK_STYLE_VALID(SplitterStyle);
+	CHECK_STYLE_VALID(TableColumnHeaderStyle);
+	CHECK_STYLE_VALID(TableRowStyle);
+	CHECK_STYLE_VALID(TextBlockStyle);
+	CHECK_STYLE_VALID(VolumeControlStyle);
+	CHECK_STYLE_VALID(WindowStyle);
+#undef CHECK_STYLE_VALID
+	if (CurCustomStyleCount > CustomStyle.CustomStyleCount)
+	{
+		//User add a new style
+#define INIT_STYLE(STYLE_NAME) for (auto& curPair : CustomStyle.STYLE_NAME)\
+	if (SlateStyleSet->HasWidgetStyle<F##STYLE_NAME>(curPair.Key)){\
+		curPair.Value = SlateStyleSet->GetWidgetStyle<F##STYLE_NAME>(curPair.Key);\
+		PostProcessCustomStyle(curPair.Value.StaticStruct(),&curPair.Value);}
+
+		INIT_STYLE(ButtonStyle);
+		INIT_STYLE(ComboBoxStyle);
+		INIT_STYLE(ComboButtonStyle);
+		INIT_STYLE(DockTabStyle);
+		INIT_STYLE(EditableTextBoxStyle);
+		INIT_STYLE(EditableTextStyle);
+		INIT_STYLE(ExpandableAreaStyle);
+		INIT_STYLE(HeaderRowStyle);
+		INIT_STYLE(InlineEditableTextBlockStyle);
+		INIT_STYLE(InlineTextImageStyle);
+		INIT_STYLE(ProgressBarStyle);
+		INIT_STYLE(ScrollBarStyle);
+		INIT_STYLE(ScrollBorderStyle);
+		INIT_STYLE(ScrollBoxStyle);
+		INIT_STYLE(SearchBoxStyle);
+		INIT_STYLE(SliderStyle);
+		INIT_STYLE(SpinBoxStyle);
+		INIT_STYLE(SplitterStyle);
+		INIT_STYLE(TableColumnHeaderStyle);
+		INIT_STYLE(TableRowStyle);
+		INIT_STYLE(TextBlockStyle);
+		INIT_STYLE(VolumeControlStyle);
+		INIT_STYLE(WindowStyle);
+#undef INIT_STYLE
+	}
+	CustomStyle.CustomStyleCount = CurCustomStyleCount;
 }

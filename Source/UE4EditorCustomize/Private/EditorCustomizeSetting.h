@@ -109,6 +109,94 @@ struct FUMGEditorPalette
 		FTableRowStyle UMGEditor_PaletteItem;
 };
 
+USTRUCT()
+struct FUE4ECCustomStyle
+{
+	GENERATED_USTRUCT_BODY()
+
+	//////////////////////////////////////////////////////////////////////////
+	////////////////////////Internal use only////////////////////////////////
+	UPROPERTY(Config)
+		int CustomStyleCount = 0;
+	//////////////////////////////////////////////////////////////////////////
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSlateBrush"))
+		TMap<FName, FSlateBrush> SlateBrush;
+
+	UPROPERTY(EditAnywhere,meta=(DisplayName="SlateFontInfo"))
+		TMap<FName, FSlateFontInfo> SlateFontInfo;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTextBlockStyle"))
+		TMap<FName, FTextBlockStyle> TextBlockStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTextBlockStyle"))
+		TMap<FName, FButtonStyle> ButtonStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FComboButtonStyle"))
+		TMap<FName, FComboButtonStyle> ComboButtonStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FComboBoxStyle"))
+		TMap<FName, FComboBoxStyle> ComboBoxStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FEditableTextStyle"))
+		TMap<FName, FEditableTextStyle> EditableTextStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBarStyle"))
+		TMap<FName, FScrollBarStyle> ScrollBarStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FEditableTextBoxStyle"))
+		TMap<FName, FEditableTextBoxStyle> EditableTextBoxStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FInlineEditableTextBlockStyle"))
+		TMap<FName, FInlineEditableTextBlockStyle> InlineEditableTextBlockStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FProgressBarStyle"))
+		TMap<FName, FProgressBarStyle> ProgressBarStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FExpandableAreaStyle"))
+		TMap<FName, FExpandableAreaStyle> ExpandableAreaStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSearchBoxStyle"))
+		TMap<FName, FSearchBoxStyle> SearchBoxStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSliderStyle"))
+		TMap<FName, FSliderStyle> SliderStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FVolumeControlStyle"))
+		TMap<FName, FVolumeControlStyle> VolumeControlStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FInlineTextImageStyle"))
+		TMap<FName, FInlineTextImageStyle> InlineTextImageStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSpinBoxStyle"))
+		TMap<FName, FSpinBoxStyle> SpinBoxStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FSplitterStyle"))
+		TMap<FName, FSplitterStyle> SplitterStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTableRowStyle"))
+		TMap<FName, FTableRowStyle> TableRowStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FTableColumnHeaderStyle"))
+		TMap<FName, FTableColumnHeaderStyle> TableColumnHeaderStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FHeaderRowStyle"))
+		TMap<FName, FHeaderRowStyle> HeaderRowStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FDockTabStyle"))
+		TMap<FName, FDockTabStyle> DockTabStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBoxStyle"))
+		TMap<FName, FScrollBoxStyle> ScrollBoxStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FScrollBorderStyle"))
+		TMap<FName, FScrollBorderStyle> ScrollBorderStyle;
+
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "FWindowStyle"))
+		TMap<FName, FWindowStyle> WindowStyle;
+
+};
+
 /**
  * 
  */
@@ -230,10 +318,19 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Text Style", meta = (DisplayName = "ContentBrowser"))
 		FContentBrowserFont ContentBrowserFont;
 
+	UPROPERTY(Config,EditAnywhere, Category="Advanced Custom Style (Experimental)", meta = (DisplayName = "Editor Style"))
+		FUE4ECCustomStyle CustomStyleEditor;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Advanced Custom Style (Experimental)", meta = (DisplayName = "Core Style"))
+		FUE4ECCustomStyle CustomStyleCore;
+
 	UEditorCustomizeSetting();
+
+	inline void PostProcessCustomStyle(UScriptStruct* StyleStruct, void* StructPtr);
 
 public:
 	void InitEditorStyle();
 	void InitCoreStyle();
 	void InitTextStyle();
+	void InitCustomStyle(class FSlateStyleSet* SlateStyleSet,FUE4ECCustomStyle& CustomStyle);
 };

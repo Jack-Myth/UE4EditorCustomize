@@ -32,6 +32,8 @@ class FUE4EditorCustomizeModule : public IModuleInterface
 
 	TSharedPtr<ISettingsSection> SettingS;
 	TMap<FName, const FSlateBrush*> CachedOriginalBrushes;
+	TMap<FName, const FSlateBrush*> CachedCustomBrushesEditor;
+	TMap<FName, const FSlateBrush*> CachedCustomBrushesCore;
 	TArray<UObject*> FindReferencedAsset();
 	FString GetAssetAbsolutePath(FString PackageName);
 	bool _Internal_ImportUTheme_v0(TArray<uint8>& FileData, FText* ErrorMsg=nullptr);
@@ -50,6 +52,7 @@ class FUE4EditorCustomizeModule : public IModuleInterface
 	uint8 ExtensionToUint8(FString FileExtension);
 	FString Uint8ToExtension(uint8 Extension);
 	void CacheOriginalBrushes();
+	void ReCacheCustomBrushes();
 public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
@@ -58,6 +61,7 @@ public:
 	void ApplyEditorStyle(class  UEditorCustomizeSetting* StyleSettings);
 	void ApplyCoreStyle(class UEditorCustomizeSetting* StyleSettings);
 	void ApplyTextStyle(class UEditorCustomizeSetting* StyleSettings);
+	void ApplyCustomStyle(class UEditorCustomizeSetting* StyleSettings);
 	bool ImportSettingFromIni(FString FilePath);
 	bool ImportUTheme(FString FilePath, FText* ErrorMsg = nullptr);
 	void ShowDialogForImport();
