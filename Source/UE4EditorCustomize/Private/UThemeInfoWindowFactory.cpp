@@ -296,10 +296,10 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(const FString &_TexPath)
 		if (imageWrapper.IsValid() &&
 			imageWrapper->SetCompressed(OutArray.GetData(), OutArray.Num()))
 		{
-			const TArray<uint8>* uncompressedRGBA = NULL;
+			TArray<uint8> uncompressedRGBA;
 			if (imageWrapper->GetRaw(ERGBFormat::RGBA, 8, uncompressedRGBA))
 			{
-				const TArray<FColor> uncompressedFColor = uint8ToFColor(*uncompressedRGBA);
+				const TArray<FColor> uncompressedFColor = uint8ToFColor(uncompressedRGBA);
 				OutTex = TextureFromImage(
 					imageWrapper->GetWidth(),
 					imageWrapper->GetHeight(),
@@ -331,10 +331,10 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(TArray<uint8> &ProvideData,
 	if (imageWrapper.IsValid() &&
 		imageWrapper->SetCompressed(ProvideData.GetData(), ProvideData.Num()))
 	{
-		const TArray<uint8>* uncompressedRGBA = NULL;
+		TArray<uint8> uncompressedRGBA;
 		if (imageWrapper->GetRaw(ERGBFormat::RGBA, 8, uncompressedRGBA))
 		{
-			const TArray<FColor> uncompressedFColor = uint8ToFColor(*uncompressedRGBA);
+			const TArray<FColor> uncompressedFColor = uint8ToFColor(uncompressedRGBA);
 			OutTex = TextureFromImage(
 				imageWrapper->GetWidth(),
 				imageWrapper->GetHeight(),
