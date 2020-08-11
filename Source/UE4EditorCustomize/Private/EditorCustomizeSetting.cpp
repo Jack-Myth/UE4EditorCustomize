@@ -24,18 +24,18 @@ void UEditorCustomizeSetting::PostProcessCustomStyle(UScriptStruct* StyleStruct,
 	//such as FSlateColor
 	//SlateColor with linked flag will cause some bug while save and load.
 	//It will crash the editor.
-	for (UProperty* CurProperty = StyleStruct->PropertyLink;CurProperty;CurProperty=CurProperty->PropertyLinkNext)
+	for (FProperty* CurProperty = StyleStruct->PropertyLink;CurProperty;CurProperty=CurProperty->PropertyLinkNext)
 	{
 		//Check if it's a FSlateColor
 		FName CppType = *CurProperty->GetCPPType();
 		if (CppType =="FSlateColor")
 		{
 			//Unlink this color.
-			auto* pColor = Cast<UStructProperty>(CurProperty)->ContainerPtrToValuePtr<FSlateColor>(StructPtr);
+			auto* pColor = CastField<FStructProperty>(CurProperty)->ContainerPtrToValuePtr<FSlateColor>(StructPtr);
 			if (pColor)
 				pColor->Unlink();
 		}
-		else if (auto* StructProperty=Cast<UStructProperty>(CurProperty))
+		else if (auto* StructProperty=CastField<FStructProperty>(CurProperty))
 		{
 			PostProcessCustomStyle(StructProperty->Struct, StructProperty->ContainerPtrToValuePtr<void>(StructPtr));
 		}

@@ -736,16 +736,27 @@ void FUE4EditorCustomizeModule::StartupModule()
 																					TEXT("UE4EditorCustomize"), FText::FromString("UE4 EditorCustomize"),
 																					FText::FromString("Setting For UE4EditorCustomize"), GetMutableDefault<UEditorCustomizeSetting>());
 	SettingS->OnModified().BindRaw(this, &FUE4EditorCustomizeModule::OnSettingModified);
+	SettingS->OnSaveDefaults().BindLambda([=]()->bool
+		{
+			GetMutableDefault<UEditorCustomizeSetting>()->UpdateGlobalUserConfigFile();
+			return true;
+		});
 	SettingS->OnResetDefaults().BindLambda([=]()->bool
-										   {
-											   FString ConfigName = GetMutableDefault<UEditorCustomizeSetting>()->GetClass()->GetConfigName();
-											   GConfig->EmptySection(*GetMutableDefault<UEditorCustomizeSetting>()->GetClass()->GetPathName(), ConfigName);
-											   GConfig->Flush(false);
-											   FConfigCacheIni::LoadGlobalIniFile(ConfigName, *FPaths::GetBaseFilename(ConfigName), nullptr, true);
-											   GetMutableDefault<UEditorCustomizeSetting>()->ReloadConfig(nullptr, nullptr, UE4::LCPF_PropagateToInstances | UE4::LCPF_PropagateToChildDefaultObjects);
-											   FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("ConfigReset_RestartEditor","Config has been reset.Restart Editor to take effect."));
-											   return true;
-										   });
+		{
+			TArray<FString> ConfigNeedToReset;
+			FString ConfigSectionName = GetMutableDefault<UEditorCustomizeSetting>()->GetClass()->GetPathName();
+			ConfigNeedToReset.Add(GetMutableDefault<UEditorCustomizeSetting>()->GetClass()->GetConfigName());
+			ConfigNeedToReset.Add(GetMutableDefault<UEditorCustomizeSetting>()->GetGlobalUserConfigFilename());
+			for (FString ConfigFileName : ConfigNeedToReset)
+			{
+				GConfig->EmptySection(*ConfigSectionName, ConfigFileName);
+				GConfig->Flush(false);
+			}
+			FConfigCacheIni::LoadGlobalIniFile(ConfigNeedToReset[0], *FPaths::GetBaseFilename(ConfigNeedToReset[0]), nullptr, true);
+			GetMutableDefault<UEditorCustomizeSetting>()->ReloadConfig(nullptr, nullptr, UE4::LCPF_PropagateToInstances | UE4::LCPF_PropagateToChildDefaultObjects);
+			FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("ConfigReset_RestartEditor","Config has been reset.Restart Editor to take effect."));
+			return true;
+		});
 }
 
 void FUE4EditorCustomizeModule::ShutdownModule()
