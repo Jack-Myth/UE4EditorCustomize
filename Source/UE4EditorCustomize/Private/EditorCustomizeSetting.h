@@ -234,6 +234,9 @@ public:
 	UPROPERTY(Config,EditAnywhere,Category="Editor Style",meta = (DisplayName="ContentBrowser.TopBar.GroupBorder"))
 		FSlateBrush ContentBrowser_TopBar_GroupBorder;
 
+	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "MessageLog.ListBorder"))
+		FSlateBrush MessageLog_ListBorder;
+
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "TableView.DarkRow"))
 		FTableRowStyle TableView_DarkRow;
 
@@ -251,6 +254,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "UMGEditor.Palette"))
 		FUMGEditorPalette UMGEditor_Palette;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Editor Style", meta = (DisplayName = "Log.TextBox"))
+		FEditableTextBoxStyle Log_TextBox;
 
 	UPROPERTY(Config, EditAnywhere, Category = "Core Style", meta = (DisplayName = "WindowStyle"))
 		FWindowStyle WindowStyle;
@@ -317,6 +323,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = "Text Style", meta = (DisplayName = "ContentBrowser"))
 		FContentBrowserFont ContentBrowserFont;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Text Style", meta = (DisplayName = "Log.Normal"))
+		FTextBlockStyle Log_Normal;
 
 	UPROPERTY(Config,EditAnywhere, Category="Advanced Custom Style (Experimental)", meta = (DisplayName = "Editor Style"))
 		FUE4ECCustomStyle CustomStyleEditor;

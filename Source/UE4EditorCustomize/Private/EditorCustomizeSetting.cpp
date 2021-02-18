@@ -69,6 +69,8 @@ void UEditorCustomizeSetting::InitEditorStyle()
 	UMGEditor_Palette.UMGEditor_PaletteItem = FEditorStyle::GetWidgetStyle<FTableRowStyle>("UMGEditor.PaletteItem");
 	Docking_Tab_ContentAreaBrush = *FEditorStyle::GetBrush("Docking.Tab.ContentAreaBrush");
 	ContentBrowser_TopBar_GroupBorder = *FEditorStyle::GetBrush("ContentBrowser.TopBar.GroupBorder");
+	MessageLog_ListBorder = *FEditorStyle::GetBrush("MessageLog.ListBorder");
+	Log_TextBox = FEditorStyle::GetWidgetStyle<FEditableTextBoxStyle>("Log.TextBox");
 }
 
 void UEditorCustomizeSetting::InitCoreStyle()
@@ -107,6 +109,7 @@ void UEditorCustomizeSetting::InitTextStyle()
 	ContentBrowserFont.SourceTreeRootItemFont = FEditorStyle::GetFontStyle("ContentBrowser.AssetTileViewNameFont");
 	ContentBrowserFont.PathText = FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.PathText");
 	ContentBrowserFont.TopBar_Font = FEditorStyle::GetWidgetStyle<FTextBlockStyle>("ContentBrowser.TopBar.Font");
+	Log_Normal = FEditorStyle::GetWidgetStyle<FTextBlockStyle>("Log.Normal");
 }
 
 void UEditorCustomizeSetting::InitCustomStyle(FSlateStyleSet* SlateStyleSet, FUE4ECCustomStyle& CustomStyle)
