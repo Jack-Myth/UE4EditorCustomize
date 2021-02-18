@@ -314,9 +314,6 @@ UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(const FString &_TexPath)
 
 UTexture2D* UThemeInfoWindowFactory::GetLocalTexture(TArray<uint8> &ProvideData, FString ImageType)
 {
-	//FString SaveTo;
-	//if (!SaveTo.IsEmpty())
-	//	FFileHelper::SaveArrayToFile(ProvideData, *SaveTo);
 	UTexture2D* OutTex = NULL;
 	IImageWrapperModule& imageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
 	TSharedPtr<IImageWrapper> imageWrapper;

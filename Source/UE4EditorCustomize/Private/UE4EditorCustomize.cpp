@@ -781,6 +781,7 @@ bool FUE4EditorCustomizeModule::OnSettingModified()
 	(FLinearColor&)FEditorStyle::GetColor("Graph.Panel.GridLineColor") = StyleSettings->Graph_Panel.GridLineColor;
 	(FLinearColor&)FEditorStyle::GetColor("Graph.Panel.GridRuleColor") = StyleSettings->Graph_Panel.GridRuleColor;
 	(FLinearColor&)FEditorStyle::GetColor("Graph.Panel.GridCenterColor") = StyleSettings->Graph_Panel.GridCenterColor;
+	(FEditableTextBoxStyle&)FEditorStyle::GetWidgetStyle<FEditableTextBoxStyle>("Log.TextBox") = StyleSettings->Log_TextBox;
 	ApplyCoreStyle(StyleSettings);
 	ApplyTextStyle(StyleSettings);
 
