@@ -30,7 +30,7 @@
 #include <AssetToolsModule.h>
 #include <../Launch/Resources/Version.h>
 #include <IAssetTools.h>
-#include <Editor\UnrealEd\Classes\Factories\FontFileImportFactory.h>
+#include <Editor/UnrealEd/Classes/Factories/FontFileImportFactory.h>
 
 #define LOCTEXT_NAMESPACE "FUE4EditorCustomizeModule"
 
@@ -545,9 +545,11 @@ UFontFace* FUE4EditorCustomizeModule::_Internal_ImportFontFace(TArray<uint8>& UT
 	Offset += FontDataSize;
 	FString AssetPackageName = FPackageName::ObjectPathToPackageName(AssetPathName);
 	FText errorMsg;
+	// REVIEW: This needs review from the original developer.
+	// Isn't clear to OdinVex as to why here unless missed refactorization.
 #if ENGINE_MINOR_VERSION >=18
-	if (!FFileHelper::IsFilenameValidForSaving(AssetPackageName, errorMsg))
-		return false;
+	/*if (!FFileHelper::IsFilenameValidForSaving(AssetPackageName, errorMsg))
+		return false;*/
 #endif
 	FString AssetName = FPackageName::GetLongPackageAssetName(AssetPackageName);
 	UPackage* AssetPackage = CreatePackage(*AssetPackageName);
@@ -925,7 +927,7 @@ bool FUE4EditorCustomizeModule::ImportUTheme(FString FilePath, FText* ErrorMsg)
 			*ErrorMsg = LOCTEXT("FailedToLoadFile", "Failed To Load File.");
 		return false;
 	}
-	constexpr char* UThemeHead = "_UTheme";
+	char const* UThemeHead = "_UTheme";
 	if (memcmp(FileData.GetData(), UThemeHead, 7))
 	{
 		if (ErrorMsg)
@@ -1017,7 +1019,7 @@ bool FUE4EditorCustomizeModule::PackageTheme(FString FilePath, FUThemeInfo_v0 UT
 	TArray<uint8> UThemeFile;
 	TArray<uint8> UThemeInfoData;
 	TArray<uint8> UThemeData;
-	constexpr char* UThemeHead = "_UTheme";
+	char const* UThemeHead = "_UTheme";
 	UThemeFile.Append((uint8*)UThemeHead, 7);  //UTheme Head(_UTheme)
 	UThemeFile.Add(0);		//UTheme Version.
 	bool RequestEngineVersion = false;
@@ -1085,13 +1087,13 @@ bool FUE4EditorCustomizeModule::PackageTheme(FString FilePath, FUThemeInfo_v0 UT
 	unsigned long DestLen = (unsigned long)UThemeData.Num();
 	if (compress2(DataBuffer, &DestLen, UThemeData.GetData(), UThemeData.Num(), Z_BEST_COMPRESSION) != Z_OK)
 	{
-		delete DataBuffer;
+		delete[] DataBuffer;
 		return false;
 	}
 	UThemeData.Empty();
 	UThemeData.Append(UThemeInfoData);
 	UThemeData.Append(DataBuffer, (int32)DestLen);
-	delete DataBuffer;
+	delete[] DataBuffer;
 	FMD5 md5;
 	md5.Update(UThemeData.GetData(), UThemeData.Num());
 	uint8 md5Bytes[16];
