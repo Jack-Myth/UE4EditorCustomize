@@ -19,6 +19,7 @@
 			"Type": "Editor",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
+				"Linux",
 				"Win64"
 			]
 		}
